@@ -4,7 +4,7 @@ import string
 def ngram(text, n=1, ignore_case = True, continuous = True, display = True):
     frequencies = {}
     increment = 1
-    if !continuous:
+    if not continuous:
         increment = n
     if ignore_case:
         text = text.lower()
