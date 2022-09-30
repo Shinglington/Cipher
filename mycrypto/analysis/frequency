@@ -1,0 +1,24 @@
+import string
+def ngram(text, n=1, ignore_case = True, continuous = True):
+    frequencies = {}
+    increment = 1
+    if !continuous:
+        increment = n
+    if ignore_case:
+        text = text.lower()
+
+    for i in range(0, len(text), increment):
+        substring = text[i:i+n]
+        if substring in frequencies:
+            frequencies.update({substring:frequencies[substring]+1})
+        else:
+            frequencies.update({substring:1})
+
+    display_result(frequencies)
+    return frequencies
+
+
+def display_result(freq_dict):
+    sorted_dict = dict(sorted(freq_dict.items(), key=lambda item: item[1]))
+    for k, v in sorted_dict:
+        print(k + " : " + v)
