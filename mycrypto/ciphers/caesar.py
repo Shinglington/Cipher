@@ -6,7 +6,7 @@ def encrypt(plaintext, shift, alphabet = string.ascii_lowercase):
         new_char = c.lower()
         if (new_char) in alphabet:
             new_char = alphabet[(alphabet.index(new_char) + shift) % len(alphabet)]
-            if c.isUpper():
+            if c.isupper():
                 new_char = new_char.upper()
         ciphertext = ciphertext + new_char
     return ciphertext
@@ -18,7 +18,7 @@ def decrypt(ciphertext, shift = None, alphabet = string.ascii_lowercase):
     else:
         deciphered = []
         for i in range(len(alphabet)):
-            deciphered.append(decrypt(ciphertext, shift, alphabet))
+            deciphered.append(decrypt(ciphertext, i, alphabet))
         plaintext = '\n\n\n'.join(deciphered)
 
     return plaintext
