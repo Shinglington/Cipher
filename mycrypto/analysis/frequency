@@ -1,5 +1,7 @@
 import string
-def ngram(text, n=1, ignore_case = True, continuous = True):
+
+
+def ngram(text, n=1, ignore_case = True, continuous = True, display = True):
     frequencies = {}
     increment = 1
     if !continuous:
@@ -14,11 +16,18 @@ def ngram(text, n=1, ignore_case = True, continuous = True):
         else:
             frequencies.update({substring:1})
 
-    display_result(frequencies)
-    return frequencies
+    return sort_result(frequencies, display)
 
 
-def display_result(freq_dict):
+def basic_analysis(text):
+    frequencies = ngram(text, 1, display=False)
+    
+
+
+
+def sort_result(freq_dict, display=False):
     sorted_dict = dict(sorted(freq_dict.items(), key=lambda item: item[1]))
-    for k, v in sorted_dict:
-        print(k + " : " + v)
+    if display:
+        for k,v in sorted_dict:
+            print(k + " : " + v)
+    return sorted_dict
