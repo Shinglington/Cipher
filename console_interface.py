@@ -1,3 +1,5 @@
+import myciphers
+
 def raw_input(prompt):
     lines = []
     print(prompt)
@@ -10,3 +12,15 @@ def raw_input(prompt):
     return ' '.join(lines)
 
 
+def main():
+    text = raw_input("Enter cipher text:")
+
+    print(myciphers.caesar.decrypt(text))
+
+
+
+
+
+
+
+main()
