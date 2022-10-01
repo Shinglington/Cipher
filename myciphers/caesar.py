@@ -1,6 +1,4 @@
-import string
-
-def encrypt(plaintext, shift, alphabet = string.ascii_lowercase):
+def encrypt(plaintext, shift, alphabet = "abcdefghijklmnopqrstuvwxyz"):
     ciphertext = ""
     for c in plaintext:
         new_char = c.lower()
@@ -11,7 +9,7 @@ def encrypt(plaintext, shift, alphabet = string.ascii_lowercase):
         ciphertext = ciphertext + new_char
     return ciphertext
 
-def decrypt(ciphertext, shift = None, alphabet = string.ascii_lowercase):
+def decrypt(ciphertext, shift = None, alphabet = "abcdefghijklmnopqrstuvwxyz"):
     plaintext = ""
     if shift != None:
         plaintext = encrypt(ciphertext, -shift, alphabet)
