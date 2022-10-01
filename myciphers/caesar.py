@@ -1,4 +1,3 @@
-from curses.ascii import isupper
 from cipher import Cipher
 
 class Caesar(Cipher):
