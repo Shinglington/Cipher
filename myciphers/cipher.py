@@ -1,9 +1,12 @@
 
+from codecs import ignore_errors
+
+
 class Cipher():
-    def __init__(self, key, alphabet, ignore_case = True):
+    def __init__(self, key, alphabet, keep_case = False):
         self.key = key
         self.alphabet = alphabet
-        self.ignore_case = ignore_case
+        self.keep_case = keep_case
 
     def encrypt(self, text):
         return text
@@ -14,6 +17,8 @@ class Cipher():
     def prep_text(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
         output = ""
         filter = ""
+        if not self.keep_case:
+            text = text.lower()
         if not keep_spaces:
             filter += ' '
         if not keep_punct:
