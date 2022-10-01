@@ -8,10 +8,10 @@ class Cipher():
         self.alphabet = alphabet
         self.keep_case = keep_case
 
-    def encrypt(self, text):
+    def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
         return text
     
-    def decrypt(self, text):
+    def decrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
         return text
     
     def prep_text(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
