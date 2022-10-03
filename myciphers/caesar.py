@@ -1,4 +1,4 @@
-from cipher import Cipher
+from myciphers.cipher import Cipher
 
 class Caesar(Cipher):
     def __init__(self, key = 13, alphabet = "abcdefghijklmnopqrstuvwxyz", keep_case = False):

@@ -1,7 +1,4 @@
 
-from codecs import ignore_errors
-
-
 class Cipher():
     def __init__(self, key, alphabet, keep_case = False):
         self.key = key

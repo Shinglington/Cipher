@@ -1,4 +1,4 @@
-from cipher import Cipher
+from myciphers.cipher import Cipher
 
 class Substition(Cipher):
     def __init__(self, key = "abcdefghijklmnopqrstuvwxyz", alphabet = "abcdefghijklmnopqrstuvwxyz", keep_case = False):
