@@ -1,9 +1,6 @@
-from curses import keyname
-from curses.ascii import isupper
-from pydoc import plain
 from cipher import Cipher
 
-class substition(Cipher):
+class Substition(Cipher):
     def __init__(self, key = "abcdefghijklmnopqrstuvwxyz", alphabet = "abcdefghijklmnopqrstuvwxyz", keep_case = False):
         Cipher.__init__(self, key, alphabet, keep_case)
 
