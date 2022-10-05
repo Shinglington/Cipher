@@ -44,11 +44,11 @@ class TransCipher(Cipher):
     def __init__(self, key, keep_case = False):
         Cipher.__init__(self, key, keep_case)
 
-    def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-        return text
+    def encrypt(self, text, keep_spaces = False, keep_punct = False):
+        return prep_text(self, text, keep_spaces, keep_punct)
     
-    def decrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-        return text
+    def decrypt(self, text, keep_spaces = False, keep_punct = False):
+        return prep_text(self, text, keep_spaces, keep_punct)
     
     def prep_text(self, text, keep_spaces = False, keep_punct = False):
         filter = ""
