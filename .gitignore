@@ -1,1 +1,8 @@
+__pycache__/
 
+# Environments
+venv/
+
+#Replit
+.replit
+replit.nix
