@@ -38,10 +38,10 @@ class ColTrans(TransCipher):
 
     def plaintext_from_col(self, columns, order):
         string = ""
-        for i in range(len(columns[0])):
+        for i in range(len(columns)):
             for j in range(len(order)):
-                if len(columns[order[j]]) > i:
-                    string += columns[order[j]][i]
+                if len(columns[i]) > order.index(j):
+                    string += columns[i][order.index(j)]
         return string
           
             
@@ -54,4 +54,5 @@ class ColTrans(TransCipher):
     def decrypt(self, text, keep_spaces = False, keep_punct = False):
         text = self.prep_text(text, keep_spaces, keep_punct)
         columns = self.cols_from_ciphertext(text)
+        print(columns)
         return self.plaintext_from_col(columns, self.get_order())
