@@ -1,9 +1,15 @@
 
 class Cipher():
+    # Common Alphabets
+    uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    lowercase = "abcdefbghijklmnopqrstuvwxyz"
+    numbers = "0123456789"
+    punctuation = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+  
     def __init__(self, key, keep_case = False):
         self.key = key
         self.keep_case = keep_case
-
+      
     def encrypt(self, text):
         return text
     
@@ -35,9 +41,9 @@ class SubCipher(Cipher):
         if not keep_spaces:
             filter += ' '
         if not keep_punct:
-            filter += "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+            filter += Cipher.punctuation
         if not keep_num:
-            filter += "0123456789"
+            filter += Cipher.numbers
         return Cipher.prep_text(self, text, filter)
 
 class TransCipher(Cipher):
@@ -55,5 +61,5 @@ class TransCipher(Cipher):
         if not keep_spaces:
             filter += ' '
         if not keep_punct:
-            filter += "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+            filter += Cipher.punctuation
         return Cipher.prep_text(self, text, filter)
