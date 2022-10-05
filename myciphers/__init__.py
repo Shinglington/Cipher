@@ -4,6 +4,6 @@ from myciphers.cipher import TransCipher
 
 from myciphers.caesar import Caesar
 from myciphers.simplesub import SimpleSub
-from myciphers.columntransposition import ColTransposition
+from myciphers.coltrans import ColTrans
 import myciphers.utility
 

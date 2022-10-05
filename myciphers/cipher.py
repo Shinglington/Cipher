@@ -45,10 +45,10 @@ class TransCipher(Cipher):
         Cipher.__init__(self, key, keep_case)
 
     def encrypt(self, text, keep_spaces = False, keep_punct = False):
-        return prep_text(self, text, keep_spaces, keep_punct)
+        return self.prep_text(self, text, keep_spaces, keep_punct)
     
     def decrypt(self, text, keep_spaces = False, keep_punct = False):
-        return prep_text(self, text, keep_spaces, keep_punct)
+        return self.prep_text(self, text, keep_spaces, keep_punct)
     
     def prep_text(self, text, keep_spaces = False, keep_punct = False):
         filter = ""
@@ -56,4 +56,4 @@ class TransCipher(Cipher):
             filter += ' '
         if not keep_punct:
             filter += "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
-        return Cipher.prep_text(self, text, filer)
+        return Cipher.prep_text(self, text, filter)
