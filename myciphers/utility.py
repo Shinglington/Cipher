@@ -1,5 +1,3 @@
-import string
-
 def raw_input(prompt):
     lines = []
     print(prompt)
