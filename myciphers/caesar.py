@@ -1,7 +1,7 @@
 from myciphers.cipher import SubCipher
 
 class Caesar(SubCipher):
-    def __init__(self, key = 13, alphabet = SubCipher.Cipher.uppercase, keep_case = False):
+    def __init__(self, key = 13, alphabet = SubCipher.uppercase, keep_case = False):
         SubCipher.__init__(self, key % len(alphabet), alphabet, keep_case)
     
     def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):

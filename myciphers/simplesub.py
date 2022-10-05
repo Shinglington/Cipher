@@ -1,7 +1,7 @@
 from myciphers.cipher import SubCipher
 
 class SimpleSub(SubCipher):
-    def __init__(self, key = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", keep_case = False):
+    def __init__(self, key = SubCipher.uppercase, alphabet = SubCipher.uppercase, keep_case = False):
         SubCipher.__init__(self, key, alphabet, keep_case)
 
     def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
