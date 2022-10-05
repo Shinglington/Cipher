@@ -12,6 +12,8 @@ class Cipher():
     
     def prep_text(self, text, filter = ""):
         output = ""
+        if not self.keep_case:
+            text = text.upper()
         for c in text:
             if c not in filter:
                 output += c
@@ -30,8 +32,6 @@ class SubCipher(Cipher):
     
     def prep_text(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
         filter = ""
-        if not self.keep_case:
-            text = text.lower()
         if not keep_spaces:
             filter += ' '
         if not keep_punct:
@@ -52,8 +52,6 @@ class TransCipher(Cipher):
     
     def prep_text(self, text, keep_spaces = False, keep_punct = False):
         filter = ""
-        if not self.keep_case:
-            text = text.lower()
         if not keep_spaces:
             filter += ' '
         if not keep_punct:
