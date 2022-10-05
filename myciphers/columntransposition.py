@@ -1,7 +1,6 @@
-from faulthandler import cancel_dump_traceback_later
-from myciphers.cipher import Cipher
+from myciphers.cipher import TransCipher
 
-class ColTransposition(Cipher):
+class ColTransposition(TransCipher):
     def __init__(self, key = "ABCDEF"):
         Cipher.__init__(self, key.lower(), "abcdefghijklmnopqrstuvwxyz", True)
         self.order = self.calc_indices()
