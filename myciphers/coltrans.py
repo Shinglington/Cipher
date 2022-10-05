@@ -20,17 +20,17 @@ class ColTrans(TransCipher):
         for col_num in range(keylen):
             columns.append("")
         for i in range(len(text)):
-            print(text[i])
             columns[i%keylen] = columns[i%keylen] + text[i]
         return columns
 
-      def get_string_from_cols(self, columns, order):
-        string = ""
-        for i in range(len(order)):
-          string += columns[order[i]]
+    def get_string_from_cols(self, columns, order):
+      string = ""
+      for i in range(len(order)):
+        string += columns[order[i]]
+      return string
             
     def encrypt(self, text, keep_spaces = False, keep_punct = False):
         text = self.prep_text(text, keep_spaces, keep_punct)
         columns = self.make_columns(text)
-        return self.get_string_from_cols(columns, get_encrypt_order)
+        return self.get_string_from_cols(columns, self.get_encrypt_order())
       
