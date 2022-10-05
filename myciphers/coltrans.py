@@ -22,8 +22,9 @@ class ColTrans(TransCipher):
             columns.append("")
         for i in range(len(text)):
             columns[i%keylen] += text[i]
-        return columns
-
+            return columns
+            
     def encrypt(self, text, keep_spaces = False, keep_punct = False):
         text = self.prep_text(self, text, keep_spaces, keep_punct)
         columns = self.make_columns(self, text)
+        print(columns)
