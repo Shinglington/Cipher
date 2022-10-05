@@ -1,6 +1,6 @@
 from myciphers.cipher import TransCipher
 
-class ColTransposition(TransCipher):
+class ColTrans(TransCipher):
     def __init__(self, key = "ABCDEF"):
         Cipher.__init__(self, key.lower(), "abcdefghijklmnopqrstuvwxyz", True)
         self.order = self.calc_indices()
