@@ -4,33 +4,54 @@ class ColTrans(TransCipher):
     def __init__(self, key = "ABCDEF"):
         TransCipher.__init__(self, key.upper())
 
-    def get_encrypt_order(self):
+    def get_order(self):
         unsorted_letters = [(self.key[i], i) for i in range(len(self.key))]
         sorted_letters = [(letter, index) for letter, index in sorted(unsorted_letters)]
         return [pair[1] for pair in sorted_letters]
 
-    def get_decrypt_order(self):
-        return
-    
-    def make_columns(self, text):
+    def cols_from_plaintext(self, text, pad_text = True):
         columns = []
         keylen = len(self.key)
-        while len(text) % keylen != 0:
-            text += "X"
+        if pad_text:
+          while len(text) % keylen != 0:
+              text += "X"
         for col_num in range(keylen):
             columns.append("")
         for i in range(len(text)):
             columns[i%keylen] = columns[i%keylen] + text[i]
         return columns
 
-    def get_string_from_cols(self, columns, order):
-      string = ""
-      for i in range(len(order)):
-        string += columns[order[i]]
-      return string
+    def cols_from_ciphertext(self, text):
+        columns = []
+        keylen = len(self.key)
+        for col_num in range(keylen):
+            columns.append("")
+        for i in range(len(text)):
+            columns[i%int(len(text) / keylen)] += text[i]
+        return columns
+
+    def ciphertext_from_col(self, columns, order):
+        string = ""
+        for i in range(len(order)):
+          string += columns[order[i]]
+        return string
+
+    def plaintext_from_col(self, columns, order):
+        string = ""
+        for i in range(len(columns[0])):
+            for j in range(len(order)):
+                if len(columns[order[j]]) > i:
+                    string += columns[order[j]][i]
+        return string
+          
             
     def encrypt(self, text, keep_spaces = False, keep_punct = False):
         text = self.prep_text(text, keep_spaces, keep_punct)
-        columns = self.make_columns(text)
-        return self.get_string_from_cols(columns, self.get_encrypt_order())
-      
+        columns = self.cols_from_plaintext(text)
+        return self.ciphertext_from_col(columns, self.get_order())
+
+
+    def decrypt(self, text, keep_spaces = False, keep_punct = False):
+        text = self.prep_text(text, keep_spaces, keep_punct)
+        columns = self.cols_from_ciphertext(text)
+        return self.plaintext_from_col(columns, self.get_order())
