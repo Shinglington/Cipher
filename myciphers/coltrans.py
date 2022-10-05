@@ -23,8 +23,14 @@ class ColTrans(TransCipher):
             print(text[i])
             columns[i%keylen] = columns[i%keylen] + text[i]
         return columns
+
+      def get_string_from_cols(self, columns, order):
+        string = ""
+        for i in range(len(order)):
+          string += columns[order[i]]
             
     def encrypt(self, text, keep_spaces = False, keep_punct = False):
         text = self.prep_text(text, keep_spaces, keep_punct)
         columns = self.make_columns(text)
-        print(columns)
+        return self.get_string_from_cols(columns, get_encrypt_order)
+      
