@@ -1,7 +1,11 @@
 import myciphers as ciph
 import myciphers.utility as util
 
+### MONOALPHABETIC SUBSTITUTION ###
 def mono_sub():
+	choices = {}
+	util.display_menu("Menu", choices)
+	"""
 	exit = False
 	while not exit:
 		print("\n\n\n")
@@ -15,10 +19,28 @@ def mono_sub():
 			print(ciph.Caesar(shift).decrypt(text))
 		elif choice == 9:
 			exit = True
+	"""
 
+def caesar():
+	choice = 0
+	while (choice != 3):
+		choice = util.get_int_choice("1 - Encrypt\n" 
+							+"2 - Decrypt\n"
+							+"3 - Back\n", [1,2,3])
+		if choice == 1:
+			pass
+			## ENCRYPT STUFF
+		elif choice == 2:
+			pass
+			## DECRYPT STUFF	
+	
+			
+### POLYALPHABETIC SUBSTITUTION ###
 def poly_sub():
 	pass
 
+
+### TRANSPOSITION ###
 def transposition():
 	pass
 
