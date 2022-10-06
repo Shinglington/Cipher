@@ -9,7 +9,7 @@ def raw_input(prompt):
             break
     return ' '.join(lines)
 
-def ngram(text, n=1, ignore_case = True, continuous = True, display = True):
+def ngram(text, n=1, ignore_case = True, continuous = True, display = False):
     frequencies = {}
     increment = 1
     if not continuous:
@@ -25,12 +25,6 @@ def ngram(text, n=1, ignore_case = True, continuous = True, display = True):
             frequencies.update({substring:1})
 
     return sort_result(frequencies, display)
-
-
-def basic_analysis(text):
-    frequencies = ngram(text, 1, display=False)
-    
-
 
 
 def sort_result(freq_dict, display=False):
