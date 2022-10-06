@@ -1,8 +1,6 @@
-import myciphers
-import analysis
+import cipher_tool
 
-def main():
-	analysis.main()
-    
- 
-main()
+def start():
+	cipher_tool.main()
+	
+start()
