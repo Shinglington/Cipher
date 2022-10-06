@@ -1,4 +1,4 @@
-from cipher import SubCipher
+from myciphers.cipher import SubCipher
 
 class Vigenere(SubCipher):
     def __init__(self, key = "ABCDEF", alphabet = SubCipher.uppercase, keep_case = False):
@@ -10,7 +10,7 @@ class Vigenere(SubCipher):
         for i in range(len(self.alphabet)):
             grid.append(self.alphabet[i: len(self.alphabet)] + self.alphabet[0:i])
         return grid
-
+	
     def get_cipherchar(self, plainchar, keychar):
         # Go to row corresponding to plainchar
         # Go to column corresponding to keychar

@@ -5,5 +5,6 @@ from myciphers.cipher import TransCipher
 from myciphers.caesar import Caesar
 from myciphers.simplesub import SimpleSub
 from myciphers.coltrans import ColTrans
+from myciphers.vigenere import Vigenere
 import myciphers.utility
 
