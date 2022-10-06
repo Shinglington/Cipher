@@ -29,7 +29,6 @@ class ColTrans(TransCipher):
             columns.append("")
         for i in range(len(text)):
             columns[i%keylen] = columns[i%keylen] + text[i]
-
         # optional display of columns
         if display:
             self.display_cols(columns)
