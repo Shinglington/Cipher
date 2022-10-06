@@ -24,15 +24,18 @@ def mono_sub():
 def caesar():
 	choice = 0
 	while (choice != 3):
+		print("\n\n\n")
 		choice = util.get_int_choice("1 - Encrypt\n" 
 							+"2 - Decrypt\n"
 							+"3 - Back\n", [1,2,3])
 		if choice == 1:
-			pass
-			## ENCRYPT STUFF
+			text = util.raw_input("Enter Plaintext Text: ")
+			shift = util.get_int_choice("Enter Shift: ", range(0,26))
+			print(ciph.Caesar(shift).encrypt(text))
 		elif choice == 2:
-			pass
-			## DECRYPT STUFF	
+			text = util.raw_input("Enter Cipher Text: ")
+			shift = util.get_int_choice("Enter Shift: ", range(0,26))
+			print(ciph.Caesar(shift).decrypt(text))
 	
 			
 ### POLYALPHABETIC SUBSTITUTION ###
