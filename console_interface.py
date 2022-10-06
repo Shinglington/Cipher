@@ -1,8 +1,8 @@
 import myciphers
-
+import analysis
 
 def main():
-	pass
+	analysis.main()
     
  
 main()

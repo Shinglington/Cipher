@@ -9,14 +9,17 @@ def raw_input(prompt):
             break
     return ' '.join(lines)
 
-def ngram(text, n=1, ignore_case = True, continuous = True, display = False):
+def ngram(text, n=1, continuous = True, display = False, ignore_case = True, ignore_spaces = True):
     frequencies = {}
     increment = 1
     if not continuous:
         increment = n
     if ignore_case:
-        text = text.lower()
+    	text = text.upper()
+    if ignore_spaces:
+        text = text.replace(" ","")
 
+		
     for i in range(0, len(text), increment):
         substring = text[i:i+n]
         if substring in frequencies:
