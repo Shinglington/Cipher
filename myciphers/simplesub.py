@@ -27,7 +27,7 @@ class SimpleSub(SubCipher):
 				new_char = new_char.lower()
 			plaintext += new_char
 		return plaintext
-	## Decryption with partial decrpytion dictionary
+	## Decryption with partial decryption dictionary
 	def partial_decrypt(self, text, decrypt_dict):
 		text = text.lower()
 		for c, p in decrypt_dict.items():

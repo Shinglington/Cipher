@@ -11,7 +11,7 @@ class ColTrans(TransCipher):
 
 
     def display_cols(self, columns):
-        print()
+        print("\nCOLUMN DISPLAY")
         for row in range(len(columns[0])):
             current_row = ""
             for col in range(len(columns)):

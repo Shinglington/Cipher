@@ -107,15 +107,19 @@ def transposition():
 
 def col_trans():
 	def encrypt():
-		text = util.get_raw_input("Enter Cipher Text")
-		key = util.get_string_input("Enter Key")
-		print(ciph.ColTrans())
+		text = util.raw_input("Enter Plaintext")
+		key = util.get_string_choice("Enter Key")
+		print(ciph.ColTrans(key).encrypt(text))
 	def decrypt():
-		pass
+		text = util.raw_input("Enter Cipher Text")
+		key = util.get_string_choice("Enter Key")
+		print(ciph.ColTrans(key).decrypt(text, show_display = True))
+
+		
 	## UI ##
 	choices = {"Encrypt":encrypt
 			  ,"Decrypt":decrypt}
-	util.display_menu("Menu", choices)
+	util.display_menu("COLUMN TRANSPOSITION CIPHER", choices)
 
 ### MENU ###
 def main():
