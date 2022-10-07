@@ -23,6 +23,18 @@ def get_int_choice(prompt, choices = []):
 			print("Please enter an integer")
 	return user_input
 
+def get_string_choice(prompt, length = 0):
+	success = False
+	user_input = None
+	while not success:
+		print(prompt)
+		user_input = input()
+		if length != 0 and len(user_input) != length:
+			print("Expected string length of " + str(length))
+		else:
+			success = True
+	return user_input
+
 def display_menu(title, choices): # Choices is a dictionary with keys as names and values as functions
 	exit = False
 	while not exit:
