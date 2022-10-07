@@ -2,7 +2,7 @@ from myciphers.cipher import SubCipher
 
 class Vigenere(SubCipher):
 	def __init__(self, key = "ABCDEF", alphabet = SubCipher.uppercase, keep_case = False):
-		SubCipher.__init__(self, key, alphabet, keep_case)
+		SubCipher.__init__(self, key.upper(), alphabet, keep_case)
 		self.grid = self.tabula_recta()
 
 	def tabula_recta(self):
@@ -15,12 +15,14 @@ class Vigenere(SubCipher):
         # Go to row corresponding to plainchar
         # Go to column corresponding to keychar
         # Return cipherchar
+		print(plainchar, keychar)
 		return self.grid[self.alphabet.index(plainchar)][self.alphabet.index(keychar)]
 
 	def get_plainchar(self, cipherchar, keychar):
         # Go to row corresponding to keychar
         # Find position of cipherchar in row
         # Use position to get corresponding plainchar
+
 		return self.alphabet[self.grid[self.alphabet.index(keychar)].index(cipherchar)]
 		
 	def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
