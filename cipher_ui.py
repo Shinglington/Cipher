@@ -5,30 +5,30 @@ import myciphers.utility as util
 def mono_sub():
 	choices = {"Caesar":caesar
 			  ,"Simple Substitution":simple_substitution}
-	util.display_menu("Menu", choices)
+	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
 
-def caesar():
-	choice = 0
-	while (choice != 3):
-		print("\n\n\n")
-		print("Caesar Cipher")
-		choice = util.get_int_choice("1 - Encrypt\n" 
-							+"2 - Decrypt\n"
-							+"3 - Back\n", [1,2,3])
-		if choice == 1:
-			text = util.raw_input("Enter Plaintext: ")
-			shift = util.get_int_choice("Enter Shift: ", range(0,26))
-			print(ciph.Caesar(shift).encrypt(text))
-		elif choice == 2:
-			text = util.raw_input("Enter Ciphertext: ")
-			shift = util.get_int_choice("Enter Shift (0 for bruteforce): ", range(0,26))
-			if shift != 0:
-				print(ciph.Caesar(shift).decrypt(text))
-			else:
-				for i in range(0, 26):
-					print(ciph.Caesar(i).decrypt(text))
-					print()
-					print()
+def caesar_ui():
+
+	def encrypt():
+		text = util.raw_input("Enter Plaintext: ")
+		shift = util.get_int_choice("Enter Shift: ", range(0,26))
+		print(ciph.Caesar(shift).encrypt(text))
+			
+	def decrypt():
+		text = util.raw_input("Enter Ciphertext: ")
+		shift = util.get_int_choice("Enter Shift (0 for bruteforce): ", range(0,26))
+		if shift != 0:
+			print(ciph.Caesar(shift).decrypt(text))
+		else:
+			for i in range(0, 26):
+				print(ciph.Caesar(i).decrypt(text))
+				print()
+				print()
+	
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	util.display_menu("Caesar Cipher", choices)
+
 
 def simple_substitution():
 	choice = 0
@@ -99,11 +99,13 @@ def poly_sub():
 
 ### TRANSPOSITION ###
 def transposition():
-	pass
+	choices = {"Column Transposition":col_trans}
+	util.display_menu("Transposition Ciphers", choices)
 
-def reverse_text():
-	text = util.get_raw_input("Enter text to reverse")
-	
+def col_trans():
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	text = util.get_raw_input("Enter Cipher Text")
 
 ### MENU ###
 def main():

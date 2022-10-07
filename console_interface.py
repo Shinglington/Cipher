@@ -1,5 +1,5 @@
-import cipher_tool
-import analysis
+import cipher_ui
+import analysis_ui
 import myciphers.utility as util
 
 def start():
