@@ -15,14 +15,12 @@ class Vigenere(SubCipher):
         # Go to row corresponding to plainchar
         # Go to column corresponding to keychar
         # Return cipherchar
-		print(plainchar, keychar)
 		return self.grid[self.alphabet.index(plainchar)][self.alphabet.index(keychar)]
 
 	def get_plainchar(self, cipherchar, keychar):
         # Go to row corresponding to keychar
         # Find position of cipherchar in row
         # Use position to get corresponding plainchar
-
 		return self.alphabet[self.grid[self.alphabet.index(keychar)].index(cipherchar)]
 		
 	def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
