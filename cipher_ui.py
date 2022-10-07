@@ -2,12 +2,11 @@ import myciphers as ciph
 import myciphers.utility as util
 
  
-def mono_sub(): 
+def MONO_SUB(): 
 	### MONOALPHABETIC SUBSTITUTION ###
 	choices = {"Caesar":caesar
 			  ,"Simple Substitution":simple_substitution}
 	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
-
 def caesar():
 
 	def encrypt():
@@ -94,13 +93,27 @@ def simple_substitution():
 	
 
 
-def poly_sub(): 
+def POLY_SUB(): 
 	### POLYALPHABETIC SUBSTITUTION ###
-	pass
+	choices = {"Vigenere":vigenere}
+	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
+
+def vigenere():
+	def encrypt():
+		text = util.raw_input("Enter Plaintext: ")
+		key = util.get_string_choice("Enter Key")
+		print(ciph.Vigenere(key).encrypt(text))
+	def decrypt():
+		text = util.raw_input("Enter Ciphertext: ")
+		key = util.get_string_choice("Enter Key")
+		print(ciph.Vigenere(key).decrypt(text))
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	util.display_menu("Vigenere Cipher", choices)
 
 
 
-def transposition():
+def TRANSPOSITION():
 	### TRANSPOSITION ###
 	choices = {"Column Transposition":col_trans}
 	util.display_menu("Transposition Ciphers", choices)
@@ -123,9 +136,9 @@ def col_trans():
 
 ### MENU ###
 def main():
-	choices = {"Monoalphabetic Substitution":mono_sub
-			  ,"Polyalphabetic Substitution":poly_sub
-			  ,"Transposition":transposition}
+	choices = {"Monoalphabetic Substitution":MONO_SUB
+			  ,"Polyalphabetic Substitution":POLY_SUB
+			  ,"Transposition":TRANSPOSITION}
 	util.display_menu("Menu", choices)
 
 if __name__ == "__main__":
