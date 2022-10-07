@@ -1,5 +1,5 @@
 import myciphers as ciph
-import ciph.utility as util
+import myciphers.utility as util
 uppercase = ciph.Cipher.uppercase
 
 ### FREQUENCY ANALYSIS CHOICE ###
@@ -30,11 +30,9 @@ def freq_analysis():
 
 
 ### MENU ###
-def menu():
+def main():
 	choices = {"Frequency Analysis":freq_analysis}
 	util.display_menu("Menu", choices)
 
-def main():
-	menu()
-
-main()
+if __name__ == "__main__":
+	main()

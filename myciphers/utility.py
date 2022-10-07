@@ -29,13 +29,13 @@ def display_menu(title, choices): # Choices is a dictionary with keys as names a
 		print("\n\n\n")
 		print(title)
 		for i in range(1, len(choices) + 1):
-			print("{index} - {choice}\n".format(index = i, choice = list(choices.keys())[i-1]))
-		print("{index} - Exit\n".format(index = len(choices) + 1))
+			print("{index} - {choice}".format(index = i, choice = list(choices.keys())[i-1]))
+		print("{index} - Exit".format(index = len(choices) + 1))
 
 		user_choice = get_int_choice("", range(1, len(choices) + 2))
 		if user_choice - 1 < len(choices):
 			choices[list(choices.keys())[user_choice-1]]()
-		elif user_choice == len(choices) + 2:
+		elif user_choice == len(choices) + 1:
 			exit = True
 		else:
 			print("Something went wrong")
