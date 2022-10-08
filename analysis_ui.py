@@ -17,11 +17,8 @@ def FREQ_ANALYSIS():
 		text = util.raw_input("Enter Text To Analyse:")
 		n = util.get_int_choice("Enter length of strings to find frequencies for: ")
 		continuous = util.get_bool_choice("Continuous analysis?\n(i.e. for n = 2 'abcd' returns 'ab','bc','cd' instead of 'ab', 'cd')\n")
-		frequencies = util.ngram(text, n, continuous) 
-		# Display results
-		print("STRING\tFREQUENCY")
-		for k in frequencies:
-			print(str(k) + (5-n)*" " + "\t" + str(frequencies[k]))
+		frequencies = util.ngram(text, n, continuous)
+		util.display_result(frequencies)
 
 	## UI ##
 	choices = {"Single Letter Analysis":single_letter_analysis

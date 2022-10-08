@@ -12,14 +12,16 @@ class ngram_score():
 		## setup list to store dictionaries of ngram counts
 		## ngrams[i] returns n = i+1 ngrams
 		self.ngrams = [{}, {}, {}, {}]
+		self.totals = [0, 0, 0, 0]
 		for i in range(len(self.ngrams)):
 			self.ngrams[i] = self.load_ngram_file(folder+self.TEXTFILE_NAMES[i])
+			self.totals[i] = sum([int(x) for x in self.ngrams[i].values()])
 			
 	def load_ngram_file(self, filename, sep = ' '):
 		ngram_dict = {}
 		for line in open(filename):
 			key, count = line.split(sep)
-			ngram_dict.update({key:count})
+			ngram_dict.update({key:count.strip("\n")})
 		return ngram_dict
 
 	def get_ngram_dict(self, n):
@@ -27,6 +29,12 @@ class ngram_score():
 			return self.ngrams[n-1]
 		else:
 			return {}
+
+	def get_ngram_totals(self, n):
+		if n > 0 and n < 5:
+			return self.totals[n-1]
+		else:
+			return 0
 
 ## GLOBAL NGRAM COUNTER
 expected_ngrams = ngram_score()
@@ -148,28 +156,60 @@ def sort_result(freq_dict):
     sorted_dict = dict(sorted(freq_dict.items(), key=lambda item: item[1]))
     return sorted_dict
 
-def display_result(sorted_freqs, comparison = True):
+def display_result(sorted_freqs, count = 26, comparison = True, percentages = True):
+	# If empty, return nothing
 	if len(sorted_freqs) < 1:
 		return
-	n = len(list(sorted_freqs.keys())[0])
-	## FOR SINGLE LETTERS
-	if n == 1:
-		print("LETTER\tFREQUENCY")
-		for k in sorted_freqs:
-			print(str(k) + 5*" " + "\t" + str(sorted_freqs[k]))
-	## FOR STRINGS
-	else:
-		## Align frequency numbers under strings
-		if n <= 5:
-			print("STRING\tFREQUENCY")
-			for k in sorted_freqs:
-				print(str(k) + (5-n)*" " + "\t" + str(sorted_freqs[k]))
-		else:
-			print("STRING" + (n-5)*" " + "\tFREQUENCY")
-			for k in sorted_freqs:
-				print(str(k) + " " + "\t" + str(sorted_freqs[k]))
+		
+
+	# Input text variables
+	keys = list(sorted_freqs.keys())
+	n = len(keys[0])
+	total_count = sum(list(sorted_freqs.values()))
+
+	# Comparison variables
+	comparisons = get_expected_ngrams(n, count)
+	compkeys = list(comparisons.keys())
+
 	
-def get_expected_ngrams(n, count = 25):
+	# SETUP HEADER
+	subtitle = "INPUT FREQS"
+	header = "LETTER(S)"
+	if n > len(header):
+		header += " "*(n-len(header))
+		subtitle += " "*(n-len(header))
+	gap = " "*(len(header)-n)
+	header += "\tFREQUENCY"
+	if comparison:
+		subtitle += "\t" + " "*(len("FREQUENCY")) + "\t\t" + "NORMAL FREQS"
+		header += "\t\t" + header
+	## HEADERS
+	print()
+	print(subtitle)
+	print(header)
+	## PRINT LINES
+	for i in range(count):
+		line = ""
+		k = keys[i]
+		freq = str(sorted_freqs[k])
+		# Convert freq to percentages
+		if percentages:
+			freq = int(freq) / total_count
+			freq = "{0:.3%}".format(freq)
+		line += k + gap + "\t" + freq + " "*(len("FREQUENCY") - len(str(freq)))
+		# Add Comparison section
+		if comparison:
+			if len(compkeys) > i:
+				line += "\t\t"
+				k = compkeys[i]
+				freq = comparisons[k]
+				if percentages:
+					freq = int(freq) / expected_ngrams.get_ngram_totals(n)
+					freq = "{0:.3%}".format(freq)
+				line += k + gap + "\t" + freq
+		print(line)
+	
+def get_expected_ngrams(n, count = 26):
 	shortened_dict = {}
 	ngram_dict = expected_ngrams.get_ngram_dict(n)
 	keys = list(ngram_dict.keys())
