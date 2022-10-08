@@ -1,6 +1,35 @@
 import sys
 ## Initialise default English frequencies
+class ngram_score():
+	TEXTFILE_NAMES = ["monograms.txt","bigrams.txt","trigrams.txt","quadgrams.txt"]
+	def __init__(self, default = True):
+		
+		folder = "myciphers/ngram_freqs/"
+		if default:
+			folder += "default/"
+		else:
+			folder += "custom/"
+		## setup list to store dictionaries of ngram counts
+		## ngrams[i] returns n = i+1 ngrams
+		self.ngrams = [{}, {}, {}, {}]
+		for i in range(len(self.ngrams)):
+			self.ngrams[i] = self.load_ngram_file(folder+self.TEXTFILE_NAMES[i])
+			
+	def load_ngram_file(self, filename, sep = ' '):
+		ngram_dict = {}
+		for line in open(filename):
+			key, count = line.split(sep)
+			ngram_dict.update({key:count})
+		return ngram_dict
 
+	def get_ngram_dict(self, n):
+		if n > 0 and n < 5:
+			return self.ngrams[n-1]
+		else:
+			return {}
+
+## GLOBAL NGRAM COUNTER
+expected_ngrams = ngram_score()
 
 ### USER INPUTS ###
 def raw_input(prompt):
@@ -120,7 +149,9 @@ def sort_result(freq_dict):
     return sorted_dict
 
 def display_result(sorted_freqs, comparison = True):
-	n = len(sorted_freqs.keys()[0])
+	if len(sorted_freqs) < 1:
+		return
+	n = len(list(sorted_freqs.keys())[0])
 	## FOR SINGLE LETTERS
 	if n == 1:
 		print("LETTER\tFREQUENCY")
@@ -128,10 +159,25 @@ def display_result(sorted_freqs, comparison = True):
 			print(str(k) + 5*" " + "\t" + str(sorted_freqs[k]))
 	## FOR STRINGS
 	else:
-		print("STRING\tFREQUENCY")
-		for k in sorted_freqs:
-			print(str(k) + (5-n)*" " + "\t" + str(sorted_freqs[k]))
-
+		## Align frequency numbers under strings
+		if n <= 5:
+			print("STRING\tFREQUENCY")
+			for k in sorted_freqs:
+				print(str(k) + (5-n)*" " + "\t" + str(sorted_freqs[k]))
+		else:
+			print("STRING" + (n-5)*" " + "\tFREQUENCY")
+			for k in sorted_freqs:
+				print(str(k) + " " + "\t" + str(sorted_freqs[k]))
+	
+def get_expected_ngrams(n, count = 25):
+	shortened_dict = {}
+	ngram_dict = expected_ngrams.get_ngram_dict(n)
+	keys = list(ngram_dict.keys())
+	for i in range(min(len(ngram_dict), count)):
+		key = keys[i]
+		shortened_dict.update({key:ngram_dict[key]})
+	return shortened_dict
+	
 
 
 		

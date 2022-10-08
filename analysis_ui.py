@@ -30,7 +30,9 @@ def FREQ_ANALYSIS():
 
 
 def GENERAL():
-	choices = {"Factor Analysis":factor_analysis}
+	## GENERAL TOOLS ##
+	choices = {"Factor Analysis":factor_analysis
+			  ,"Expected Ngram Frequencies":get_expected_ngrams}
 	util.display_menu("Other Tools", choices)
 
 def factor_analysis():
@@ -40,6 +42,10 @@ def factor_analysis():
 	length = util.get_length(text, ignore_spaces, ignore_punct)
 	print("Text Length: " + str(length))
 	print(print("Factors: " + str(util.get_factors(length))))
+
+def get_expected_ngrams():
+	n = util.get_int_choice("Enter n (1 to 4)", [1,2,3,4])
+	util.display_result(util.get_expected_ngrams(n))
 	
 ### MENU ###
 def main():
