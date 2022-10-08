@@ -171,43 +171,30 @@ def display_result(sorted_freqs, count = 26, comparison = True, percentages = Tr
 	comparisons = get_expected_ngrams(n, count)
 	compkeys = list(comparisons.keys())
 
-	
-	# SETUP HEADER
-	subtitle = "INPUT FREQS"
-	header = "LETTER(S)"
-	if n > len(header):
-		header += " "*(n-len(header))
-		subtitle += " "*(n-len(header))
-	gap = " "*(len(header)-n)
-	header += "\tFREQUENCY"
-	if comparison:
-		subtitle += "\t" + " "*(len("FREQUENCY")) + "\t\t" + "NORMAL FREQS"
-		header += "\t\t" + header
-	## HEADERS
-	print()
-	print(subtitle)
-	print(header)
 	## PRINT LINES
+	print()
+	line_template = "{0:8}\t{1:8}\t\t{2:8}\t{3:8}"
+	print(line_template.format("INPUT FREQS", "", "", "NORMAL FREQS"))
+	print(line_template.format("LETTER(S)", "FREQUENCY", "LETTER(S)", "FREQUENCY"))
 	for i in range(count):
-		line = ""
-		k = keys[i]
-		freq = str(sorted_freqs[k])
+		letter1 = keys[i]
+		freq1 = sorted_freqs[letter1]
+		letter2 = ""
+		freq2 = ""
 		# Convert freq to percentages
 		if percentages:
-			freq = int(freq) / total_count
-			freq = "{0:.3%}".format(freq)
-		line += k + gap + "\t" + freq + " "*(len("FREQUENCY") - len(str(freq)))
+			freq1 = "{0:.3%}".format(freq1 / total_count)
+		#line += k + gap + "\t" + freq + " "*(len("FREQUENCY") - len(str(freq)))
 		# Add Comparison section
 		if comparison:
 			if len(compkeys) > i:
-				line += "\t\t"
-				k = compkeys[i]
-				freq = comparisons[k]
+				#line += "\t\t"
+				letter2 = compkeys[i]
+				freq2 = int(comparisons[letter2])
 				if percentages:
-					freq = int(freq) / expected_ngrams.get_ngram_totals(n)
-					freq = "{0:.3%}".format(freq)
-				line += k + gap + "\t" + freq
-		print(line)
+					freq2 = "{0:.3%}".format(freq2 / expected_ngrams.get_ngram_totals(n))
+				#line += k + gap + "\t" + freq
+		print(line_template.format(letter1, freq1, letter2, freq2))
 	
 def get_expected_ngrams(n, count = 26):
 	shortened_dict = {}
