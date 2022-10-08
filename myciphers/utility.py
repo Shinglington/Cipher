@@ -153,7 +153,7 @@ def ngram(text, n=1, continuous = True, ignore_case = True, ignore_spaces = True
     return sort_result(frequencies)
 
 def sort_result(freq_dict):
-    sorted_dict = dict(sorted(freq_dict.items(), key=lambda item: item[1]))
+    sorted_dict = dict(sorted(freq_dict.items(), key=lambda item: item[1], reverse = True))
     return sorted_dict
 
 def display_result(sorted_freqs, count = 26, comparison = True, percentages = True):
@@ -161,39 +161,38 @@ def display_result(sorted_freqs, count = 26, comparison = True, percentages = Tr
 	if len(sorted_freqs) < 1:
 		return
 		
-
-	# Input text variables
+	# Variables
 	keys = list(sorted_freqs.keys())
 	n = len(keys[0])
 	total_count = sum(list(sorted_freqs.values()))
-
-	# Comparison variables
 	comparisons = get_expected_ngrams(n, count)
 	compkeys = list(comparisons.keys())
 
 	## PRINT LINES
 	print()
 	line_template = "{0:8}\t{1:8}\t\t{2:8}\t{3:8}"
-	print(line_template.format("INPUT FREQS", "", "", "NORMAL FREQS"))
-	print(line_template.format("LETTER(S)", "FREQUENCY", "LETTER(S)", "FREQUENCY"))
+
+	if comparison:
+		print(line_template.format("INPUT FREQS", "", "NORMAL FREQS", ""))
+		print(line_template.format("LETTER(S)", "FREQUENCY", "LETTER(S)", "FREQUENCY"))
+	else:
+		print(line_template.format("INPUT FREQS", "", "", ""))
+		print(line_template.format("LETTER(S)", "FREQUENCY", "", ""))
+		
 	for i in range(count):
 		letter1 = keys[i]
 		freq1 = sorted_freqs[letter1]
 		letter2 = ""
 		freq2 = ""
-		# Convert freq to percentages
 		if percentages:
 			freq1 = "{0:.3%}".format(freq1 / total_count)
-		#line += k + gap + "\t" + freq + " "*(len("FREQUENCY") - len(str(freq)))
-		# Add Comparison section
+		## Add comparisons
 		if comparison:
 			if len(compkeys) > i:
-				#line += "\t\t"
 				letter2 = compkeys[i]
 				freq2 = int(comparisons[letter2])
 				if percentages:
 					freq2 = "{0:.3%}".format(freq2 / expected_ngrams.get_ngram_totals(n))
-				#line += k + gap + "\t" + freq
 		print(line_template.format(letter1, freq1, letter2, freq2))
 	
 def get_expected_ngrams(n, count = 26):
