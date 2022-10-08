@@ -35,6 +35,24 @@ def get_string_choice(prompt, length = 0):
 			success = True
 	return user_input
 
+def get_bool_choice(prompt):
+	success = False
+	user_input = None
+	while not success:
+		print(prompt + " (y/n)")
+		user_input = input().strip(" ").upper()
+		if user_input != "Y" and user_input != "N":
+			print("Please enter y/n ")
+		else:
+			success = True
+
+	if user_input == "Y":
+		return True
+	elif user_input == "N":
+		return False
+	else:
+		print("Something went wrong")
+
 def display_menu(title, choices): # Choices is a dictionary with keys as names and values as functions
 	exit = False
 	while not exit:
@@ -52,6 +70,28 @@ def display_menu(title, choices): # Choices is a dictionary with keys as names a
 		else:
 			print("Something went wrong")
 			break
+
+
+
+## SIMPLE TEXT FUNCTIONS ##
+def get_length(text, ignore_spaces = True, ignore_punctuation = True):
+	if ignore_spaces:
+		text = text.replace(" ","")
+	if ignore_punctuation:
+		for c in "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~":
+			text = text.replace(c, "")
+	return len(text)
+
+def get_factors(num):
+	factors = []
+	for i in range(1, int(num**0.5)+1):
+		if num % i == 0:
+			if i not in factors:
+				factors.append(i)
+			if num / i not in factors:
+				factors.append(int(num/i))
+	return sorted(factors)
+
 
 
 
@@ -84,9 +124,7 @@ def sort_result(freq_dict, display=False):
     return sorted_dict
 
 
-
-
-
+		
 
 
 
