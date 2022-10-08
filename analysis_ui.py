@@ -11,10 +11,7 @@ def FREQ_ANALYSIS():
 		for l in uppercase:
 			if l not in frequencies.keys():
 				frequencies.update({l:0})
-		# Display results
-		print("LETTER\tFREQUENCY")
-		for k in frequencies:
-			print(str(k) + "     \t" + str(frequencies[k]))
+		util.display_result(frequencies)
 				
 	def n_gram_analysis():
 		text = util.raw_input("Enter Text To Analyse:")

@@ -1,4 +1,6 @@
 import sys
+## Initialise default English frequencies
+
 
 ### USER INPUTS ###
 def raw_input(prompt):
@@ -94,8 +96,8 @@ def get_factors(num):
 
 
 
-
-def ngram(text, n=1, continuous = True, display = False, ignore_case = True, ignore_spaces = True):
+## FREQUENCY ANALYSIS ##
+def ngram(text, n=1, continuous = True, ignore_case = True, ignore_spaces = True):
     frequencies = {}
     increment = 1
     if not continuous:
@@ -104,7 +106,6 @@ def ngram(text, n=1, continuous = True, display = False, ignore_case = True, ign
     	text = text.upper()
     if ignore_spaces:
         text = text.replace(" ","")
-
 		
     for i in range(0, len(text), increment):
         substring = text[i:i+n]
@@ -112,16 +113,25 @@ def ngram(text, n=1, continuous = True, display = False, ignore_case = True, ign
             frequencies.update({substring:frequencies[substring]+1})
         else:
             frequencies.update({substring:1})
+    return sort_result(frequencies)
 
-    return sort_result(frequencies, display)
-
-
-def sort_result(freq_dict, display=False):
+def sort_result(freq_dict):
     sorted_dict = dict(sorted(freq_dict.items(), key=lambda item: item[1]))
-    if display:
-        for k,v in sorted_dict:
-            print(k + " : " + v)
     return sorted_dict
+
+def display_result(sorted_freqs, comparison = True):
+	n = len(sorted_freqs.keys()[0])
+	## FOR SINGLE LETTERS
+	if n == 1:
+		print("LETTER\tFREQUENCY")
+		for k in sorted_freqs:
+			print(str(k) + 5*" " + "\t" + str(sorted_freqs[k]))
+	## FOR STRINGS
+	else:
+		print("STRING\tFREQUENCY")
+		for k in sorted_freqs:
+			print(str(k) + (5-n)*" " + "\t" + str(sorted_freqs[k]))
+
 
 
 		
