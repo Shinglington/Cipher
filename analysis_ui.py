@@ -29,7 +29,8 @@ def FREQ_ANALYSIS():
 def GENERAL():
 	## GENERAL TOOLS ##
 	choices = {"Factor Analysis":factor_analysis
-			  ,"Expected Ngram Frequencies":get_expected_ngrams}
+			  ,"Expected Ngram Frequencies":get_expected_ngrams
+			  ,"Calculate n-gram Fitness":calculate_fitness}
 	util.display_menu("Other Tools", choices)
 
 def factor_analysis():
@@ -43,6 +44,17 @@ def factor_analysis():
 def get_expected_ngrams():
 	n = util.get_int_choice("Enter n (1 to 4)", [1,2,3,4])
 	util.display_result(util.get_expected_ngrams(n))
+
+
+def calculate_fitness():
+	text = util.raw_input("Enter text to analyse:")
+	text = text.replace(ciph.Cipher.punctuation, "")
+	text = text.replace(" ","")
+	text = text.upper()
+	n = util.get_int_choice("Enter n-gram length to analyse (1 to 4)", [1,2,3,4])
+	score = util.expected_ngrams.calc_fitness(text, n)
+	print("{0}-gram score is: {1}".format(n, score))
+	
 	
 ### MENU ###
 def main():

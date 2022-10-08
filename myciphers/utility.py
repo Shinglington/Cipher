@@ -1,4 +1,5 @@
 import sys
+import math
 ## Initialise default English frequencies
 class ngram_score():
 	TEXTFILE_NAMES = ["monograms.txt","bigrams.txt","trigrams.txt","quadgrams.txt"]
@@ -13,15 +14,22 @@ class ngram_score():
 		## ngrams[i] returns n = i+1 ngrams
 		self.ngrams = [{}, {}, {}, {}]
 		self.totals = [0, 0, 0, 0]
+		self.log_probs = [{}, {}, {}, {}]
 		for i in range(len(self.ngrams)):
 			self.ngrams[i] = self.load_ngram_file(folder+self.TEXTFILE_NAMES[i])
 			self.totals[i] = sum([int(x) for x in self.ngrams[i].values()])
+			self.log_probs[i] = self.load_log_probs(self.ngrams[i], self.totals[i])
 			
 	def load_ngram_file(self, filename, sep = ' '):
 		ngram_dict = {}
 		for line in open(filename):
 			key, count = line.split(sep)
 			ngram_dict.update({key:count.strip("\n")})
+		return ngram_dict
+
+	def load_log_probs(self, ngram_dict, total):
+		for key in ngram_dict.keys():
+			ngram_dict[key] = math.log10(float(ngram_dict[key])/total)
 		return ngram_dict
 
 	def get_ngram_dict(self, n):
@@ -35,6 +43,18 @@ class ngram_score():
 			return self.totals[n-1]
 		else:
 			return 0
+
+	def calc_fitness(self, text, n):
+		score = 0
+		for i in range(len(text) - n):
+			string = text[i:i+n]
+			if string in self.log_probs[n-1].keys():
+				score += self.log_probs[n-1][string]
+			else:
+				score += math.log10(0.01/self.totals[n-1])
+		return score
+
+
 
 ## GLOBAL NGRAM COUNTER
 expected_ngrams = ngram_score()

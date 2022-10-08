@@ -31,10 +31,10 @@ class SubCipher(Cipher):
         self.alphabet = alphabet
 
     def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-        return text
+        return self.prep_text(text, keep_spaces, keep_punct, keep_num)
     
     def decrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-        return text
+        return self.prep_text(text, keep_spaces, keep_punct, keep_num)
     
     def prep_text(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
         filter = ""
