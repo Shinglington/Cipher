@@ -1,16 +1,22 @@
 from myciphers.cipher import SubCipher
 class Affine(SubCipher):
-	def __init__(self, key = [5, 8], alphabet = SubCipher.uppercase, keep_case  = False): 
+	def __init__(self, a, b, alphabet = SubCipher.uppercase, keep_case  = False): 
 		## key in form [a, b]
-		SubCipher.__init__(key, alphabet, keep_case)
+		self.alphabet = alphabet
+		self.keep_case = keep_case
+		self.a = a
+		self.b = b
 
 	def check_valid_key(self):
 		valid = False
 		return valid
 
-	def calc_inverse_key():
-		a = key[0]
-		b = key[1]
+	def calc_inverse_key(self):
+		inverse = -1
+		for i in range(1, 26, 2):
+			if (self.a*i) % 26 == 1:
+				inverse = i
+		return inverse
 		
 	
 	def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
@@ -20,7 +26,7 @@ class Affine(SubCipher):
 			new_char = c.upper()
 			if new_char in self.alphabet:
 				# new index = (a * current index + b) % 26
-				new_index = (self.key[0] * self.alphabet.index(new_char) + self.key[1]) % 26
+				new_index = (self.a * self.alphabet.index(new_char) + self.b) % 26
 				new_char = self.alphabet[new_index]
 			if c.islower() and self.keep_case:
 				new_char = new_char.lower()
@@ -36,7 +42,7 @@ class Affine(SubCipher):
 				# cipher index = (a * plain index + b) % 26
 				# plain index =  c * (cipherindex - b) % 26
 				# c is modular multiplicative inverse of a
-				new_index = (self.key[0] * self.alphabet.index(new_char) + self.key[1]) % 26
+				new_index = (self.calc_inverse_key() * (self.alphabet.index(new_char) - self.b) % 26)
 				new_char = self.alphabet[new_index]
 			if c.islower() and self.keep_case:
 				new_char = new_char.lower()

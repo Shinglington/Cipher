@@ -5,7 +5,8 @@ import myciphers.utility as util
 def MONO_SUB(): 
 	### MONOALPHABETIC SUBSTITUTION ###
 	choices = {"Caesar":caesar
-			  ,"Simple Substitution":simple_substitution}
+			  ,"Simple Substitution":simple_substitution
+			  ,"Affine Cipher":affine}
 	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
 def caesar():
 	def encrypt():
@@ -109,6 +110,54 @@ def simple_substitution():
 	
 
 
+def affine():
+	def encrypt():
+		print("")
+		text = util.raw_input("Enter Plaintext: ")
+		a = util.get_int_choice("Enter a:", range(0,26))
+		b = util.get_int_choice("Enter b:", range(0,26))
+		print(ciph.Affine(a, b).encrypt(text))
+			
+	def decrypt():
+		def known_key():
+			text = util.raw_input("Enter Ciphertext:")
+			a = util.get_int_choice("Enter a:", range(0,26))
+			b = util.get_int_choice("Enter b:", range(0,26))
+			if ciph.Affine(a, b).calc_inverse_key() != -1:
+				print(ciph.Affine(a, b).decrypt(text))
+			else:
+				print("Invalid a value, no inverse exists")
+					
+		def brute_force():
+			text = util.raw_input("Enter Ciphertext:")
+			decryptions = []
+			for a in range(1, 26):
+				for b in range(0, 26):
+					if ciph.Affine(a, b).calc_inverse_key() != -1:
+						decrypt = ciph.Affine(a, b).decrypt(text)
+						print("a = {0}, b = {1}".format(a, b))
+						print(decrypt)
+						print()
+						decryptions.append(decrypt)
+
+			## Attempt to guess most likely correct decryption
+			print("\n\n\n")
+			ordered_decryptions = list(util.order_by_english_likelihood(decryptions).keys())
+			print("Most likely decryptions:")
+			for i in range(3):
+				print("{0}:".format(i+1))
+				print(ordered_decryptions[i])
+				print("\n\n")
+			
+		choices = {"Known Key":known_key
+				  ,"Brute Force":brute_force}
+		util.display_menu("Decryption", choices)
+
+	## UI ##
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	util.display_menu("Affine Cipher", choices)
+	
 def POLY_SUB(): 
 	### POLYALPHABETIC SUBSTITUTION ###
 	choices = {"Vigenere":vigenere}
