@@ -28,9 +28,10 @@ class ngram_score():
 		return ngram_dict
 
 	def load_log_probs(self, ngram_dict, total):
+		log_probs = {}
 		for key in ngram_dict.keys():
-			ngram_dict[key] = math.log10(float(ngram_dict[key])/total)
-		return ngram_dict
+			log_probs[key] = math.log10(float(ngram_dict[key])/total)
+		return log_probs
 
 	def get_ngram_dict(self, n):
 		if n > 0 and n < 5:
@@ -79,6 +80,17 @@ def order_by_english_likelihood(decryptions, n = 4):
 	decrypt_scores = sort_result(decrypt_scores)
 	return decrypt_scores
 
+
+### IOC Calculator
+def calc_ioc(text):
+	text = text.upper().replace(" ","").replace("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~","")
+	freqs = ngram(text, 1)
+	ioc = 0
+	for c in freqs:
+		c_count = freqs[c]
+		charIOC = (c_count*(c_count-1)) / (len(text) * (len(text)-1))
+		ioc += charIOC
+	return ioc
 
 ### USER INPUTS ###
 def raw_input(prompt):
@@ -213,7 +225,7 @@ def display_result(sorted_freqs, count = 26, comparison = True, percentages = Tr
 					freq2 = "{0:.3%}".format(freq2 / expected_ngrams.get_ngram_totals(n))
 		print(line_template.format(letter1, freq1, letter2, freq2))
 
-		
+
 ## SIMPLE TEXT FUNCTIONS ##
 def get_length(text, ignore_spaces = True, ignore_punctuation = True):
 	if ignore_spaces:

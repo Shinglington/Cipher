@@ -136,7 +136,7 @@ def affine():
 					if ciph.Affine(a, b).calc_inverse_key() != -1:
 						decrypt = ciph.Affine(a, b).decrypt(text)
 						print("a = {0}, b = {1}".format(a, b))
-						print(decrypt)
+						print(decrypt[0:min(len(decrypt), 20)] + "...")
 						print()
 						decryptions.append(decrypt)
 

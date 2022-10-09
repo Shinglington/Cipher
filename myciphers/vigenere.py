@@ -1,5 +1,5 @@
 from myciphers.cipher import SubCipher
-
+import myciphers.utility as util
 class Vigenere(SubCipher):
 	def __init__(self, key = "ABCDEF", alphabet = SubCipher.uppercase, keep_case = False):
 		SubCipher.__init__(self, key.upper(), alphabet, keep_case)
@@ -52,3 +52,39 @@ class Vigenere(SubCipher):
 				new_char = new_char.lower()
 			plaintext += new_char
 		return plaintext
+
+def guess_key_length(text, max_length = 15):
+	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
+	ioc_list = []
+	for i in range(1, max_length):
+		columns = []
+		for col_count in range(i):
+			this_column = ""
+			for j in range(i, len(text), col_count):
+				this_column += text[j]
+			columns.append(this_column)
+
+		column_iocs = []
+		for c in columns:
+			ioc = 0
+			if len(c) > 1:
+				ioc = util.calc_ioc(c)
+			column_iocs.append(ioc)
+		average_ioc = sum(column_iocs) / len(column_iocs)
+		ioc_list.append(average_ioc)
+
+	key_length = 0
+	for i in range(len(ioc_list)):
+		if key_length = 0:
+			key_length = i+1
+		elif ioc_list[i] > ioc_list[key_length - 1]:
+			key_length = i+1
+	
+	return key_length
+
+
+
+def guess_key(text):
+	length =
+	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
+	

@@ -30,7 +30,8 @@ def GENERAL():
 	## GENERAL TOOLS ##
 	choices = {"Factor Analysis":factor_analysis
 			  ,"Expected Ngram Frequencies":get_expected_ngrams
-			  ,"Calculate n-gram Fitness":calculate_fitness}
+			  ,"Calculate n-gram Fitness":calculate_fitness
+			  ,"Calculate Index of Coincidence":calculate_ioc}
 	util.display_menu("Other Tools", choices)
 
 def factor_analysis():
@@ -54,6 +55,11 @@ def calculate_fitness():
 	n = util.get_int_choice("Enter n-gram length to analyse (1 to 4)", [1,2,3,4])
 	score = util.expected_ngrams.calc_fitness(text, n)
 	print("{0}-gram score is: {1}".format(n, score))
+
+def calculate_ioc():
+	text = util.raw_input("Enter text to analyse:")
+	ioc = util.calc_ioc(text)
+	print("IOC : {0}", ioc)
 	
 	
 ### MENU ###
