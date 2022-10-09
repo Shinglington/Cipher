@@ -59,6 +59,27 @@ class ngram_score():
 ## GLOBAL NGRAM COUNTER
 expected_ngrams = ngram_score()
 
+
+
+## ngram score related funtions	
+def get_expected_ngrams(n, count = 26):
+	shortened_dict = {}
+	ngram_dict = expected_ngrams.get_ngram_dict(n)
+	keys = list(ngram_dict.keys())
+	for i in range(min(len(ngram_dict), count)):
+		key = keys[i]
+		shortened_dict.update({key:ngram_dict[key]})
+	return shortened_dict
+
+
+def order_by_english_likelihood(decryptions, n = 4):
+	decrypt_scores = {}
+	for d in decryptions:
+		decrypt_scores.update({d:expected_ngrams.calc_fitness(d, n)})
+	decrypt_scores = sort_result(decrypt_scores)
+	return decrypt_scores
+
+
 ### USER INPUTS ###
 def raw_input(prompt):
 	lines = []
@@ -130,29 +151,6 @@ def display_menu(title, choices): # Choices is a dictionary with keys as names a
 			print("Something went wrong")
 			break
 
-
-
-## SIMPLE TEXT FUNCTIONS ##
-def get_length(text, ignore_spaces = True, ignore_punctuation = True):
-	if ignore_spaces:
-		text = text.replace(" ","")
-	if ignore_punctuation:
-		for c in "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~":
-			text = text.replace(c, "")
-	return len(text)
-
-def get_factors(num):
-	factors = []
-	for i in range(1, int(num**0.5)+1):
-		if num % i == 0:
-			if i not in factors:
-				factors.append(i)
-			if num / i not in factors:
-				factors.append(int(num/i))
-	return sorted(factors)
-
-
-
 ## FREQUENCY ANALYSIS ##
 def ngram(text, n=1, continuous = True, ignore_case = True, ignore_spaces = True):
     frequencies = {}
@@ -214,19 +212,26 @@ def display_result(sorted_freqs, count = 26, comparison = True, percentages = Tr
 				if percentages:
 					freq2 = "{0:.3%}".format(freq2 / expected_ngrams.get_ngram_totals(n))
 		print(line_template.format(letter1, freq1, letter2, freq2))
-	
-def get_expected_ngrams(n, count = 26):
-	shortened_dict = {}
-	ngram_dict = expected_ngrams.get_ngram_dict(n)
-	keys = list(ngram_dict.keys())
-	for i in range(min(len(ngram_dict), count)):
-		key = keys[i]
-		shortened_dict.update({key:ngram_dict[key]})
-	return shortened_dict
-	
-
 
 		
+## SIMPLE TEXT FUNCTIONS ##
+def get_length(text, ignore_spaces = True, ignore_punctuation = True):
+	if ignore_spaces:
+		text = text.replace(" ","")
+	if ignore_punctuation:
+		for c in "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~":
+			text = text.replace(c, "")
+	return len(text)
+
+def get_factors(num):
+	factors = []
+	for i in range(1, int(num**0.5)+1):
+		if num % i == 0:
+			if i not in factors:
+				factors.append(i)
+			if num / i not in factors:
+				factors.append(int(num/i))
+	return sorted(factors)
 
 
 

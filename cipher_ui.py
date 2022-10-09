@@ -8,22 +8,38 @@ def MONO_SUB():
 			  ,"Simple Substitution":simple_substitution}
 	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
 def caesar():
-
 	def encrypt():
 		text = util.raw_input("Enter Plaintext: ")
 		shift = util.get_int_choice("Enter Shift: ", range(0,26))
 		print(ciph.Caesar(shift).encrypt(text))
 			
 	def decrypt():
-		text = util.raw_input("Enter Ciphertext: ")
-		shift = util.get_int_choice("Enter Shift (0 for bruteforce): ", range(0,26))
-		if shift != 0:
+		def known_key():
+			text = util.raw_input("Enter Ciphertext:")
+			shift = util.get_int_choice("Enter Shift:", range(0,26))
 			print(ciph.Caesar(shift).decrypt(text))
-		else:
+		def brute_force():
+			text = util.raw_input("Enter Ciphertext:")
+			decryptions = []
 			for i in range(0, 26):
-				print(ciph.Caesar(i).decrypt(text))
+				decrypt = ciph.Caesar(i).decrypt(text)
+				print("shift = {0}".format(i))
+				print(decrypt)
 				print()
-				print()
+				decryptions.append(decrypt)
+
+			## Attempt to guess most likely correct decryption
+			print("\n\n\n")
+			ordered_decryptions = list(util.order_by_english_likelihood(decryptions).keys())
+			print("Most likely decryptions:")
+			for i in range(3):
+				print("{0}:".format(i+1))
+				print(ordered_decryptions[i])
+				print("\n\n")
+			
+		choices = {"Known Key":known_key
+				  ,"Brute Force":brute_force}
+		util.display_menu("Decryption", choices)
 
 	## UI ##
 	choices = {"Encrypt":encrypt
