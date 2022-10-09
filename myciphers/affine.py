@@ -40,7 +40,7 @@ class Affine(SubCipher):
 				new_char = self.alphabet[new_index]
 			if c.islower() and self.keep_case:
 				new_char = new_char.lower()
-			ciphertext += new_char
+			plaintext += new_char
 		return plaintext
 		
 		
