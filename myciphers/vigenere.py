@@ -153,6 +153,7 @@ def guess_key(text, length = 0):
 			for k in key_letters:
 				new_keywords.append(keywords[j] + k)
 		keywords = new_keywords
+	print(keywords)
 	return keywords
 
 

@@ -189,7 +189,7 @@ def vigenere():
 			# show top 5 results
 			print("Most likely results")
 			print("\n\n")
-			for i in range(5):
+			for i in range(min(5, len(possible_decryptions))):
 				key = list(possible_decryptions.keys())[i]
 				print("{0} : key = {1}".format(i+1, key))
 				print(possible_decryptions[key])
