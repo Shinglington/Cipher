@@ -95,6 +95,7 @@ def guess_key_length(text, max_length = 15):
 
 
 def guess_column_key(column):
+	from myciphers.caesar import Caesar
 	possible_letters = []
 	# First, get letter frequencies in column
 	col_freq = list(util.ngram(column, 1).keys())
@@ -103,6 +104,22 @@ def guess_column_key(column):
 		if letter not in col_freq:
 			col_freq.append(letter)
 
+	possible_shifts = {}
+	# check each caesar shift
+	# perform chi squared test on each shift
+	for shift in range(26):
+		decryption = Caesar(shift).decrypt(column)
+		chi_score = util.calc_chi_squared(decryption)
+		possible_shifts.update({shift:chi_score})
+
+	possible_decryptions = dict(sorted(possible_shifts.items(), key = lambda item : item[1]))
+
+	for i in range(2):
+		shift = list(possible_decryptions.keys())[i]
+		possible_letters.append(SubCipher.uppercase[shift])
+
+
+	"""
 	# Map most frequent letters in column to most frequent letters in english
 	E_keys = []
 	for i in range(6):
@@ -121,6 +138,7 @@ def guess_column_key(column):
 	for key in E_keys:
 		if key in Z_keys:
 			possible_letters.append(key)
+	"""
 	return possible_letters
 	
 
