@@ -21,7 +21,15 @@ class Vigenere(SubCipher):
         # Go to row corresponding to keychar
         # Find position of cipherchar in row
         # Use position to get corresponding plainchar
-		return self.alphabet[self.grid[self.alphabet.index(keychar)].index(cipherchar)]
+		return 		self.alphabet[self.grid[self.alphabet.index(keychar)].index(cipherchar)]
+
+	def get_keychar(self, plainchar, cipherchar):
+		# go to row corresponding to plainchar
+		# find position of cipherchar 
+		# return corresponding alphabet letter in position
+		return self.alphabet[self.grid[self.alphabet.index(plainchar)].index(cipherchar)]
+		
+
 		
 	def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
 		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
@@ -56,11 +64,11 @@ class Vigenere(SubCipher):
 def guess_key_length(text, max_length = 15):
 	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
 	ioc_list = []
-	for i in range(1, max_length):
+	for col_len in range(1, max_length):
 		columns = []
-		for col_count in range(i):
+		for col_num in range(col_len):
 			this_column = ""
-			for j in range(i, len(text), col_count):
+			for j in range(col_num, len(text), col_len):
 				this_column += text[j]
 			columns.append(this_column)
 
@@ -73,9 +81,12 @@ def guess_key_length(text, max_length = 15):
 		average_ioc = sum(column_iocs) / len(column_iocs)
 		ioc_list.append(average_ioc)
 
+		## print iocs
+		print("Length {0}, IOC {1}".format(col_len, average_ioc))
+
 	key_length = 0
 	for i in range(len(ioc_list)):
-		if key_length = 0:
+		if key_length == 0:
 			key_length = i+1
 		elif ioc_list[i] > ioc_list[key_length - 1]:
 			key_length = i+1
@@ -83,8 +94,66 @@ def guess_key_length(text, max_length = 15):
 	return key_length
 
 
+def guess_column_key(column):
+	possible_letters = []
+	# First, get letter frequencies in column
+	col_freq = list(util.ngram(column, 1).keys())
+	# Add missing letters to frequency list
+	for letter in SubCipher.uppercase:
+		if letter not in col_freq:
+			col_freq.append(letter)
 
-def guess_key(text):
-	length =
+	# Map most frequent letters in column to most frequent letters in english
+	E_keys = []
+	for i in range(5):
+		col_letter = col_freq[i]
+		key_letter = Vigenere().get_keychar("E", col_letter)
+		E_keys.append(key_letter)
+
+	# Map least frequent letters letters in column to least frequent letters in english
+	Z_keys  = []
+	for i in range(1, 6):
+		col_letter = col_freq[-i]
+		key_letter = Vigenere().get_keychar("Z", col_letter)
+		Z_keys.append(key_letter)
+
+	# Check for common letters in z and e keys
+	for key in E_keys:
+		if key in Z_keys:
+			possible_letters.append(key)
+	return possible_letters
+	
+
+def guess_key(text, length = 0):
+	if length == 0:
+		length = guess_key_length(text)
+	print(length)
 	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
+	# Expected english frequencies
+	eng_freqs = list(util.expected_ngrams.get_ngram_dict(1).keys())
+	possible_keyword = []
+	# guess key of each "column"
+	for col_num in range(length):
+		this_column = ""
+		for j in range(col_num, len(text), length):
+			this_column += text[j]
+		# add guessed key to possible keyword
+		possible_keyword.append(guess_column_key(this_column))
+
+	keywords = [""]
+	# loop through each "column" possible key
+	for i in range(length):
+		key_letters = possible_keyword[i]
+		# If no possible letter, add a "?"
+		if len(key_letters) == 0:
+			key_letters = ["?"]
+		# for existing partial keywords, add new possibilities
+		new_keywords = []
+		for j in range(len(keywords)):
+			for k in key_letters:
+				new_keywords.append(keywords[j] + k)
+		keywords = new_keywords
+	return keywords
+
+
 	

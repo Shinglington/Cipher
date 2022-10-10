@@ -45,7 +45,7 @@ class ngram_score():
 		else:
 			return 0
 
-	def calc_fitness(self, text, n):
+	def calc_fitness(self, text, n = 4):
 		score = 0
 		for i in range(len(text) - n):
 			string = text[i:i+n]

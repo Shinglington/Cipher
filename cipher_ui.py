@@ -164,14 +164,42 @@ def POLY_SUB():
 	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
 
 def vigenere():
+	import myciphers.vigenere as vig
 	def encrypt():
 		text = util.raw_input("Enter Plaintext: ")
 		key = util.get_string_choice("Enter Key")
 		print(ciph.Vigenere(key).encrypt(text))
 	def decrypt():
-		text = util.raw_input("Enter Ciphertext: ")
-		key = util.get_string_choice("Enter Key")
-		print(ciph.Vigenere(key).decrypt(text))
+		def known_key():
+			text = util.raw_input("Enter Ciphertext: ")
+			key = util.get_string_choice("Enter Key")
+			print(ciph.Vigenere(key).decrypt(text))
+		def guess_key():
+			text = util.raw_input("Enter Ciphertext: ")
+			guessed_keys = vig.guess_key(text)
+			# Add all key and decryption combinations to a dictionary
+			possible_decryptions = {}
+			for k in guessed_keys:
+				# replace unknowns with "A"
+				k = k.replace("?", "A")
+				possible_decryptions.update({k:ciph.Vigenere(k).decrypt(text)})
+			# sort dictionary by decryption ioc
+			possible_decryptions = dict(sorted(possible_decryptions.items(), key = lambda item : util.expected_ngrams.calc_fitness(item[1]), reverse = True))
+			
+			# show top 5 results
+			print("Most likely results")
+			print("\n\n")
+			for i in range(5):
+				key = list(possible_decryptions.keys())[i]
+				print("{0} : key = {1}".format(i+1, key))
+				print(possible_decryptions[key])
+				print("\n\n")
+				
+
+		choices = {"Known Key":known_key
+				  ,"Attempt to Guess Key":guess_key}
+		util.display_menu("Decryption", choices)
+		
 	choices = {"Encrypt":encrypt
 			  ,"Decrypt":decrypt}
 	util.display_menu("Vigenere Cipher", choices)
