@@ -105,14 +105,14 @@ def guess_column_key(column):
 
 	# Map most frequent letters in column to most frequent letters in english
 	E_keys = []
-	for i in range(5):
+	for i in range(6):
 		col_letter = col_freq[i]
 		key_letter = Vigenere().get_keychar("E", col_letter)
 		E_keys.append(key_letter)
 
 	# Map least frequent letters letters in column to least frequent letters in english
 	Z_keys  = []
-	for i in range(1, 6):
+	for i in range(1, 7):
 		col_letter = col_freq[-i]
 		key_letter = Vigenere().get_keychar("Z", col_letter)
 		Z_keys.append(key_letter)
@@ -153,7 +153,6 @@ def guess_key(text, length = 0):
 			for k in key_letters:
 				new_keywords.append(keywords[j] + k)
 		keywords = new_keywords
-	print(keywords)
 	return keywords
 
 

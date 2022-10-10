@@ -31,7 +31,8 @@ def GENERAL():
 	choices = {"Factor Analysis":factor_analysis
 			  ,"Expected Ngram Frequencies":get_expected_ngrams
 			  ,"Calculate n-gram Fitness":calculate_fitness
-			  ,"Calculate Index of Coincidence":calculate_ioc}
+			  ,"Calculate Index of Coincidence":calculate_ioc
+			  ,"Calculate Chi Squared Score":calculate_chi_squared}
 	util.display_menu("Other Tools", choices)
 
 def factor_analysis():
@@ -59,7 +60,12 @@ def calculate_fitness():
 def calculate_ioc():
 	text = util.raw_input("Enter text to analyse:")
 	ioc = util.calc_ioc(text)
-	print("IOC : {0}", ioc)
+	print("IOC : {0}".format(ioc))
+
+def calculate_chi_squared():
+	text = util.raw_input("Enter text to analyse:")
+	chi_squared = util.calc_chi_squared(text)
+	print("Chi Squared Score: {0}".format(chi_squared))
 	
 	
 ### MENU ###
