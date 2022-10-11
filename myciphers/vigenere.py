@@ -61,7 +61,7 @@ class Vigenere(SubCipher):
 			plaintext += new_char
 		return plaintext
 
-def guess_key_length(text, max_length = 15):
+def guess_key_length(text, max_length = 20):
 	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
 	ioc_list = []
 	for col_len in range(1, max_length):
@@ -113,12 +113,13 @@ def guess_column_key(column):
 		possible_shifts.update({shift:chi_score})
 
 	possible_decryptions = dict(sorted(possible_shifts.items(), key = lambda item : item[1]))
-
-	for i in range(2):
+	lowest_chi = list(possible_decryptions.values())[0]
+	for i in range(len(possible_decryptions)):
 		shift = list(possible_decryptions.keys())[i]
-		possible_letters.append(SubCipher.uppercase[shift])
-
-
+		if possible_decryptions[shift] < (2 * lowest_chi):
+			possible_letters.append(SubCipher.uppercase[shift])
+		else:
+			break
 	"""
 	# Map most frequent letters in column to most frequent letters in english
 	E_keys = []
@@ -147,8 +148,6 @@ def guess_key(text, length = 0):
 		length = guess_key_length(text)
 	print(length)
 	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
-	# Expected english frequencies
-	eng_freqs = list(util.expected_ngrams.get_ngram_dict(1).keys())
 	possible_keyword = []
 	# guess key of each "column"
 	for col_num in range(length):

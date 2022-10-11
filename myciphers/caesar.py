@@ -4,7 +4,7 @@ class Caesar(SubCipher):
     def __init__(self, key = 13, alphabet = SubCipher.uppercase, keep_case = False):
         SubCipher.__init__(self, key % len(alphabet), alphabet, keep_case)
     
-    def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
+    def encrypt(self, text, keep_spaces = True, keep_punct = True, keep_num = True):
         text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
         ciphertext = ""
         for c in text:
@@ -16,7 +16,7 @@ class Caesar(SubCipher):
             ciphertext += new_char
         return ciphertext
 
-    def decrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
+    def decrypt(self, text, keep_spaces = True, keep_punct = True, keep_num = True):
         text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
         plaintext = ""
         for c in text:

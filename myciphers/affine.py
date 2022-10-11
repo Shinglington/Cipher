@@ -19,7 +19,7 @@ class Affine(SubCipher):
 		return inverse
 		
 	
-	def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
+	def encrypt(self, text, keep_spaces = True, keep_punct = True, keep_num = True):
 		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
 		ciphertext = ""
 		for c in text:
@@ -33,7 +33,7 @@ class Affine(SubCipher):
 			ciphertext += new_char
 		return ciphertext
 
-	def decrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
+	def decrypt(self, text, keep_spaces = True, keep_punct = True, keep_num = True):
 		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
 		plaintext = ""
 		for c in text:
