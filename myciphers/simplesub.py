@@ -7,6 +7,10 @@ class SimpleSub(Cipher):
 		Cipher.__init__(self, key, alphabet)
 
 	def encrypt(self, text):
+		## \/ TEACHING SECTION \/ ##
+		if config.detailed:
+			print("\nUsing Simple Substitution Cipher shift {0} to decrypt text".format(self.key))
+		## /\ TEACHING SECTION /\ ##
 		text = self.prep_text(text)
 		ciphertext = ""
 		for c in text:

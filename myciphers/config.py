@@ -18,3 +18,4 @@ keep_case = False
 
 # teaching
 detailed = True
+teaching = True
