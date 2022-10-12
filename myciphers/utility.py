@@ -1,6 +1,7 @@
 import sys
 import math
 
+import config
 
 ## Initialise default English frequencies
 class ngram_score():
@@ -285,3 +286,5 @@ def get_factors(num):
 			if num / i not in factors:
 				factors.append(int(num / i))
 	return sorted(factors)
+
+

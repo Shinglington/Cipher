@@ -1,65 +1,51 @@
-
-class Cipher():
-    # Common Alphabets
-    uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    lowercase = "abcdefbghijklmnopqrstuvwxyz"
-    numbers = "0123456789"
-    punctuation = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
-  
-    def __init__(self, key, keep_case = False):
-        self.key = key
-        self.keep_case = keep_case
+import config
+class Cipher():	
+	def __init__(self, key):
+		self.key = key
       
-    def encrypt(self, text):
-        return text
-    
-    def decrypt(self, text):
-        return text
-    
-    def prep_text(self, text, filter = ""):
-        output = ""
-        if not self.keep_case:
-            text = text.upper()
-        for c in text:
-            if c not in filter:
-                output += c
-        return output
+	def encrypt(self, text):
+		return text
+    	
+	def decrypt(self, text):
+		return text
+		
+	def prep_text(self, text, filter = ""):
+		if not config.keep_spaces:
+			filter += ' '
+		if not config.keep_punct:
+			filter += config.punctuation
+		if not config.keep_num:
+			filter += config.numbers
+		if not config.keep_case:
+			text = text.upper()
+		output = ""
+		for c in text:
+			if c not in filter:
+				output += c
+		return output
 
 class SubCipher(Cipher):
-    def __init__(self, key, alphabet, keep_case = False):
-        Cipher.__init__(self, key, keep_case)
-        self.alphabet = alphabet
+    def __init__(self, key):
+        Cipher.__init__(self, key)
 
-    def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-        return self.prep_text(text, keep_spaces, keep_punct, keep_num)
+    def encrypt(self, text):
+        return self.prep_text(text)
     
-    def decrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-        return self.prep_text(text, keep_spaces, keep_punct, keep_num)
+    def decrypt(self, text):
+        return self.prep_text(text)
     
-    def prep_text(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-        filter = ""
-        if not keep_spaces:
-            filter += ' '
-        if not keep_punct:
-            filter += Cipher.punctuation
-        if not keep_num:
-            filter += Cipher.numbers
+    def prep_text(self, text):
         return Cipher.prep_text(self, text, filter)
 
 class TransCipher(Cipher):
-    def __init__(self, key, keep_case = False):
-        Cipher.__init__(self, key, keep_case)
+    def __init__(self, key):
+        Cipher.__init__(self, key)
 
-    def encrypt(self, text, keep_spaces = False, keep_punct = False):
-        return self.prep_text(self, text, keep_spaces, keep_punct)
+    def encrypt(self, text):
+        return self.prep_text(self, text)
     
-    def decrypt(self, text, keep_spaces = False, keep_punct = False):
-        return self.prep_text(self, text, keep_spaces, keep_punct)
+    def decrypt(self, text):
+        return self.prep_text(self, text)
     
-    def prep_text(self, text, keep_spaces = False, keep_punct = False):
-        filter = ""
-        if not keep_spaces:
-            filter += ' '
-        if not keep_punct:
-            filter += Cipher.punctuation
+    def prep_text(self, text):
         return Cipher.prep_text(self, text, filter)
