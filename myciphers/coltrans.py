@@ -31,8 +31,9 @@ class ColTrans(Cipher):
 			columns.append("")
 		for i in range(len(text)):
 			columns[i%keylen] = columns[i%keylen] + text[i]
-        # optional display of columnsif config.detailed:
-		self.display_cols(columns)
+        # optional display of columns
+			if config.detailed:
+				self.display_cols(columns)
 		return columns
 
 	def cols_from_ciphertext(self, text):

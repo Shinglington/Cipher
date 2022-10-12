@@ -4,7 +4,8 @@ import myciphers.config as config
 
 class Vigenere(Cipher):
 	def __init__(self, key = "ABCDEF", alphabet = config.alphabet_upper):
-		Cipher.__init__(self, key.upper())
+		Cipher.__init__(self)
+		self.key = key.upper()
 		self.alphabet = alphabet
 		self.grid = self.tabula_recta()
 

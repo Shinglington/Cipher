@@ -2,10 +2,13 @@ from myciphers.cipher import Cipher
 import myciphers.config as config
 
 class Caesar(Cipher):
-	def __init__(self, key = 13, alphabet = config.alphabet_upper, detailed = config.detailed, teaching = config.teaching):
+	def __init__(self, key = 13,
+				 alphabet = config.alphabet_upper, 
+				 detailed = config.detailed, 
+				 teaching = config.teaching):
 		self.alphabet = alphabet
-		Cipher.__init__(self, detailed, teaching)
 		self.key = key % len(self.alphabet)
+		Cipher.__init__(self, detailed, teaching)
 	
 	def encrypt(self, text):
 		## \/ TEACHING SECTION \/ ##
@@ -41,7 +44,7 @@ class Caesar(Cipher):
 			print("\nUsing Caesar Cipher shift {0} to decrypt text".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 			
-		text = self.prep_text(text)
+		text = self.prep_text(text, keep_punct = True, keep_num = True)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()

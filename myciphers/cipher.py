@@ -21,16 +21,21 @@ class Cipher():
 	def decrypt(self, text):
 		return text
 		
-	def prep_text(self, text, filter = ""):
+	def prep_text(self, text 				
+				  keep_spaces = self.keep_spaces,
+				  keep_punct = self.keep_punct,
+				  keep_num = self.numbers, 
+				  keep_case = self.keep_case,
+				  filter = ""):
 		## \/ DETAILED REPORT \/ ##
 		if self.detailed:
 			print("\n\n### PREP TEXT FUNCTION ###")
 		## /\ DETAILED REPORT /\ ##
-		if not self.keep_spaces:
+		if not keep_spaces:
 			filter += ' '
-		if not self.keep_punct:
+		if not keep_punct:
 			filter += config.punctuation
-		if not self.keep_num:
+		if not keep_num:
 			filter += config.numbers
 		if not self.keep_case:
 			## \/ DETAILED REPORT \/ ##

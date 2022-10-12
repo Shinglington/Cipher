@@ -4,6 +4,7 @@ import myciphers.config as config
 class Affine(Cipher):
 	def __init__(self, a, b, alphabet = config.alphabet_upper): 
 		## key in form [a, b]
+		Cipher.__init__(self)
 		self.alphabet = alphabet
 		self.a = a
 		self.b = b
@@ -34,9 +35,9 @@ class Affine(Cipher):
 			ciphertext += new_char
 		return ciphertext
 
-	def decrypt(self, text, keep_spaces = True, keep_punct = True, keep_num = True):
+	def decrypt(self, text):
 		## No harm in keeping extra letters since they don't affect decryption
-		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
+		text = self.prep_text(text)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()
