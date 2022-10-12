@@ -40,8 +40,8 @@ class Vigenere(Cipher):
 		
 
 		
-	def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
+	def encrypt(self, text):
+		text = self.prep_text(text, )
 		ciphertext = ""
 		keyindex = 0
 		for c in text:
@@ -56,8 +56,8 @@ class Vigenere(Cipher):
 		return ciphertext
                 
 
-	def decrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
+	def decrypt(self, text):
+		text = self.prep_text(text)
 		plaintext = ""
 		keyindex = 0
 		for c in text:
@@ -71,7 +71,7 @@ class Vigenere(Cipher):
 		return plaintext
 
 def guess_key_length(text, max_length = 20):
-	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
+	text = util.filter_text(text, keep_spaces = False, keep_punct = False, keep_case = False)
 	ioc_list = []
 	for col_len in range(1, max_length):
 		columns = []
@@ -109,7 +109,7 @@ def guess_column_key(column):
 	# First, get letter frequencies in column
 	col_freq = list(util.ngram(column, 1).keys())
 	# Add missing letters to frequency list
-	for letter in SubCipher.uppercase:
+	for letter in config.alphabet_upper:
 		if letter not in col_freq:
 			col_freq.append(letter)
 
@@ -126,7 +126,7 @@ def guess_column_key(column):
 	for i in range(len(possible_decryptions)):
 		shift = list(possible_decryptions.keys())[i]
 		if possible_decryptions[shift] < (2 * lowest_chi):
-			possible_letters.append(SubCipher.uppercase[shift])
+			possible_letters.append(config.alphabet_upper[shift])
 		else:
 			break
 	"""
@@ -156,7 +156,7 @@ def guess_key(text, length = 0):
 	if length == 0:
 		length = guess_key_length(text)
 	print(length)
-	text = text.replace(" ","").upper().replace(SubCipher.punctuation,"")
+	text = util.filter_text(text, keep_spaces = False, keep_punct = False, keep_case = False)
 	possible_keyword = []
 	# guess key of each "column"
 	for col_num in range(length):

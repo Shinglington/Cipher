@@ -80,16 +80,14 @@ def order_by_english_likelihood(decryptions, n=4):
 	decrypt_scores = {}
 	for d in decryptions:
 		decrypt_scores.update({d: expected_ngrams.calc_fitness(d, n)})
-	decrypt_scores = sort_result(decrypt_scores)
+	decrypt_scores = sort_dict(decrypt_scores)
 	return decrypt_scores
 
 
 ### FITNESS CALCULATORS
 ### IOC Calculator
 def calc_ioc(text):
-	text = text.upper().replace(" ",
-	                            "").replace("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~",
-	                                        "")
+	text = filter_text(text, keep_spaces = False, keep_punct = False, keep_num = False)
 	freqs = ngram(text, 1)
 	ioc = 0
 	for c in freqs:
@@ -101,9 +99,7 @@ def calc_ioc(text):
 
 ### CHI SQUARED STATISTIC
 def calc_chi_squared(text):
-	text = text.upper().replace(" ",
-	                            "").replace("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~",
-	                                        "")
+	text = filter_text(text, keep_spaces = False, keep_punct = False, keep_num = False)
 	text_length = len(text)
 	freqs = ngram(text, 1)
 	expected_freqs = expected_ngrams.get_ngram_dict(1)
@@ -205,10 +201,7 @@ def ngram(text, n=1, continuous=True, ignore_case=True, ignore_spaces=True):
 	increment = 1
 	if not continuous:
 		increment = n
-	if ignore_case:
-		text = text.upper()
-	if ignore_spaces:
-		text = text.replace(" ", "")
+	text = filter_text(text, keep_case = not ignore_case, keep_spaces = not ignore_spaces)
 
 	for i in range(0, len(text), increment):
 		substring = text[i:i + n]
@@ -216,13 +209,7 @@ def ngram(text, n=1, continuous=True, ignore_case=True, ignore_spaces=True):
 			frequencies.update({substring: frequencies[substring] + 1})
 		else:
 			frequencies.update({substring: 1})
-	return sort_result(frequencies)
-
-
-def sort_result(freq_dict):
-	sorted_dict = dict(
-	 sorted(freq_dict.items(), key=lambda item: item[1], reverse=True))
-	return sorted_dict
+	return sort_dict(frequencies)
 
 
 def display_result(sorted_freqs, count=26, comparison=True, percentages=True):
@@ -268,13 +255,7 @@ def display_result(sorted_freqs, count=26, comparison=True, percentages=True):
 
 ## SIMPLE TEXT FUNCTIONS ##
 def get_length(text, ignore_spaces=True, ignore_punctuation=True):
-	if ignore_spaces:
-		text = text.replace(" ", "")
-	if ignore_punctuation:
-		for c in "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~":
-			text = text.replace(c, "")
-	return len(text)
-
+	return len(filter_text(text, keep_spaces = not ignore_spaces, keep_punct = not ignore_punctuation))
 
 def get_factors(num):
 	factors = []
@@ -285,4 +266,29 @@ def get_factors(num):
 			if num / i not in factors:
 				factors.append(int(num / i))
 	return sorted(factors)
+
+def filter_text(text, filter = "", 
+				keep_spaces = True, 
+				keep_punct = True, 
+				keep_num = True, 
+				keep_case = True):
+		output = ""
+		if not keep_spaces:
+			filter += ' '
+		if not keep_punct:
+			filter += config.punctuation
+		if not keep_num:
+			filter += config.numbers
+		if not keep_case:
+			text = text.upper()
+		for c in text:
+			if c not in filter:
+				output += c
+		return output
+
+
+## GENERAL ##
+def sort_dict(unsorted_dict, reverse = True):
+	sorted_dict = dict(sorted(unsorted_dict.items(), key = lambda item: item[1], reverse=reverse))
+	return sorted_dict
 

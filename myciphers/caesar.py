@@ -2,14 +2,14 @@ from myciphers.cipher import Cipher
 import myciphers.config as config
 
 class Caesar(Cipher):
-	def __init__(self, key = 13, alphabet = config.alphabet_upper, detailed = config.detailed):
+	def __init__(self, key = 13, alphabet = config.alphabet_upper, detailed = config.detailed, teaching = config.teaching):
 		self.alphabet = alphabet
 		Cipher.__init__(self, key % len(self.alphabet), detailed)
 
 	
 	def encrypt(self, text):
 		## \/ TEACHING SECTION \/ ##
-		if self.detailed:
+		if self.teaching:
 			print("\nUsing Caesar Cipher shift {0} to encrypt text".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 			
@@ -26,7 +26,7 @@ class Caesar(Cipher):
 			ciphertext += new_char
 			
 			## \/ TEACHING SECTION \/ ##
-			if self.detailed:
+			if self.teaching:
 				print("\nThe Plaintext Character is '{0}',we shift right by '{1}', and get '{2}'".format(c.upper(), self.key, new_char))
 				print(self.alphabet.lower().replace(c.lower(), c.upper()).replace(new_char.lower(), new_char.upper()))
 				print("\nWe now have {0}".format(ciphertext))
@@ -37,7 +37,7 @@ class Caesar(Cipher):
 	
 	def decrypt(self, text):
 		## \/ TEACHING SECTION \/ ##
-		if self.detailed:
+		if self.teaching:
 			print("\nUsing Caesar Cipher shift {0} to decrypt text".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 			
@@ -54,7 +54,7 @@ class Caesar(Cipher):
 			plaintext += new_char
 			
 			## \/ TEACHING SECTION \/ ##
-			if self.detailed:
+			if self.teaching:
 				print("\nThe Cipher Character is '{0}', we shift left by '{1}', and get '{2}'".format(c.upper(), self.key, new_char.upper()))
 				print(self.alphabet.lower().replace(c.lower(), c.upper()).replace(new_char.lower(), new_char.upper()))
 				print("\nWe now have {0}".format(plaintext))
