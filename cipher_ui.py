@@ -176,7 +176,11 @@ def vigenere():
 			print(ciph.Vigenere(key).decrypt(text))
 		def guess_key():
 			text = util.raw_input("Enter Ciphertext: ")
-			guessed_keys = vig.guess_key(text)
+			known_length = util.get_bool_choice("Do you know the key length?")
+			key_length = 0
+			if known_length:
+				key_length = util.get_int_choice("Enter key length:")
+			guessed_keys = vig.guess_key(text, key_length)
 			# Add all key and decryption combinations to a dictionary
 			possible_decryptions = {}
 			for k in guessed_keys:
