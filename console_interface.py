@@ -1,7 +1,8 @@
 import cipher_ui
 import analysis_ui
+import myciphers
 import myciphers.utility as util
-import myciphers.config
+import myciphers.config as config
 
 
 def start():

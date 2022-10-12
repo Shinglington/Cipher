@@ -1,14 +1,23 @@
-from myciphers.cipher import SubCipher
+from myciphers.cipher import Cipher
 import myciphers.utility as util
-class Vigenere(SubCipher):
-	def __init__(self, key = "ABCDEF", alphabet = SubCipher.uppercase, keep_case = False):
-		SubCipher.__init__(self, key.upper(), alphabet, keep_case)
+import myciphers.config as config
+
+class Vigenere(Cipher):
+	def __init__(self, key = "ABCDEF", alphabet = config.alphabet_upper):
+		Cipher.__init__(self, key.upper())
+		self.alphabet = alphabet
 		self.grid = self.tabula_recta()
 
 	def tabula_recta(self):
 		grid = []
 		for i in range(len(self.alphabet)):
 			grid.append(self.alphabet[i: len(self.alphabet)] + self.alphabet[0:i])
+
+		## DETAILED DISPLAY
+		if config.detailed:
+			print("\nTABULA-RECTA : find cipher letter by going to corresponding key row and plaintext column \n")
+			for row in grid:
+				print(row)
 		return grid
 	
 	def get_cipherchar(self, plainchar, keychar):

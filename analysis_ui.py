@@ -1,14 +1,13 @@
 import myciphers as ciph
 import myciphers.utility as util
-uppercase = ciph.Cipher.uppercase
-
+import myciphers.config as config
 
 def FREQ_ANALYSIS():
 	### FREQUENCY ANALYSIS CHOICE ###
 	def single_letter_analysis():
 		text = util.raw_input("Enter Text To Analyse:")
 		frequencies = util.ngram(text, 1) 
-		for l in uppercase:
+		for l in config.alphabet_upper:
 			if l not in frequencies.keys():
 				frequencies.update({l:0})
 		util.display_result(frequencies)

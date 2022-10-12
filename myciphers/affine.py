@@ -1,9 +1,10 @@
-from myciphers.cipher import SubCipher
-class Affine(SubCipher):
-	def __init__(self, a, b, alphabet = SubCipher.uppercase, keep_case  = False): 
+from myciphers.cipher import Cipher
+import myciphers.config as config
+
+class Affine(Cipher):
+	def __init__(self, a, b, alphabet = config.alphabet_upper): 
 		## key in form [a, b]
 		self.alphabet = alphabet
-		self.keep_case = keep_case
 		self.a = a
 		self.b = b
 
@@ -19,8 +20,8 @@ class Affine(SubCipher):
 		return inverse
 		
 	
-	def encrypt(self, text, keep_spaces = True, keep_punct = True, keep_num = True):
-		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
+	def encrypt(self, text):
+		text = self.prep_text(text)
 		ciphertext = ""
 		for c in text:
 			new_char = c.upper()
@@ -34,6 +35,7 @@ class Affine(SubCipher):
 		return ciphertext
 
 	def decrypt(self, text, keep_spaces = True, keep_punct = True, keep_num = True):
+		## No harm in keeping extra letters since they don't affect decryption
 		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
 		plaintext = ""
 		for c in text:

@@ -5,6 +5,7 @@ alphabet_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 alphabet_lower = "abcdefghijklmnopqrstuvwxyz"
 numbers = "0123456789"
 punctuation = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+padding = "X"
 
 # cipher configurations
 keep_punct = False
@@ -16,5 +17,5 @@ keep_case = False
 
 
 # teaching
-detailed = False
-slow_mode = False
+detailed = True
+slow_mode = True

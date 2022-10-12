@@ -1,11 +1,12 @@
-from myciphers.cipher import SubCipher
+from myciphers.cipher import Cipher
+import myciphers.config as config
 
-class SimpleSub(SubCipher):
-	def __init__(self, key = SubCipher.uppercase, alphabet = SubCipher.uppercase, keep_case = False):
-		SubCipher.__init__(self, key, alphabet, keep_case)
+class SimpleSub(Cipher):
+	def __init__(self, key = config.alphabet_upper, alphabet = config.alphabet_upper):
+		Cipher.__init__(self, key, alphabet)
 
-	def encrypt(self, text, keep_spaces = False, keep_punct = False, keep_num = False):
-		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
+	def encrypt(self, text):
+		text = self.prep_text(text)
 		ciphertext = ""
 		for c in text:
 			new_char = c.upper()
@@ -16,7 +17,8 @@ class SimpleSub(SubCipher):
 			ciphertext += new_char
 		return ciphertext
 		
-	def decrypt(self, text, keep_spaces=False, keep_punct=False, keep_num=False):
+	def decrypt(self, text, keep_spaces=True, keep_punct=True, keep_num=True):
+		## if ciphertext has punctuation, spaces and numbers, no harm in keepng them for plaintext 
 		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
 		plaintext = ""
 		for c in text:
@@ -27,6 +29,7 @@ class SimpleSub(SubCipher):
 				new_char = new_char.lower()
 			plaintext += new_char
 		return plaintext
+		
 	## Decryption with partial decryption dictionary
 	def partial_decrypt(self, text, decrypt_dict):
 		text = text.lower()

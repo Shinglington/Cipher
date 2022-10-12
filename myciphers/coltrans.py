@@ -1,8 +1,9 @@
-from myciphers.cipher import TransCipher
+from myciphers.cipher import Cipher
+import myciphers.config as config
 
-class ColTrans(TransCipher):
+class ColTrans(Cipher):
     def __init__(self, key = "ABCDEF"):
-        TransCipher.__init__(self, key.upper())
+        Cipher.__init__(self, key.upper())
 
     def get_order(self, keyword):
         unsorted_letters = [(keyword[i], i) for i in range(len(keyword))]
@@ -19,22 +20,22 @@ class ColTrans(TransCipher):
             print(current_row)
         print()
         
-    def cols_from_plaintext(self, text, pad_text = True, display = False):
+    def cols_from_plaintext(self, text, pad_text = True):
         columns = []
         keylen = len(self.key)
         if pad_text:
           while len(text) % keylen != 0:
-              text += "X"
+              text += config.padding
         for col_num in range(keylen):
             columns.append("")
         for i in range(len(text)):
             columns[i%keylen] = columns[i%keylen] + text[i]
         # optional display of columns
-        if display:
+        if config.detailed:
             self.display_cols(columns)
         return columns
 
-    def cols_from_ciphertext(self, text, display = False):
+    def cols_from_ciphertext(self, text):
         columns = []
         keylen = len(self.key)
         col_len = int(len(text) / keylen)
@@ -44,7 +45,7 @@ class ColTrans(TransCipher):
                 col += text[col_num * col_len + i]
             columns.append(col)
         # optional display of columns
-        if display:
+        if config.detailed:
             self.display_cols(columns)
         return columns
 
@@ -63,13 +64,14 @@ class ColTrans(TransCipher):
         return string
           
             
-    def encrypt(self, text, keep_spaces = False, keep_punct = False, show_display = False):
-        text = self.prep_text(text, keep_spaces, keep_punct)
-        columns = self.cols_from_plaintext(text, display = show_display)
+    def encrypt(self, text):
+        text = self.prep_text(text)
+        columns = self.cols_from_plaintext(text)
         return self.ciphertext_from_col(columns, self.get_order(self.key))
 
 
-    def decrypt(self, text, keep_spaces = False, keep_punct = False, show_display = False):
-        text = self.prep_text(text, keep_spaces, keep_punct)
-        columns = self.cols_from_ciphertext(text, display = show_display)
+    def decrypt(self, text):
+		## If ciphertext contains numbers and punctuation, likely need them to get columns correct
+        text = self.prep_text(text, keep_num = True, keep_punct = True)
+        columns = self.cols_from_ciphertext(text)
         return self.plaintext_from_col(columns, self.get_order(self.key))

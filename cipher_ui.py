@@ -1,6 +1,6 @@
 import myciphers as ciph
 import myciphers.utility as util
-
+import myciphers.config as config
  
 def MONO_SUB(): 
 	### MONOALPHABETIC SUBSTITUTION ###

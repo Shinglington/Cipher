@@ -1,7 +1,6 @@
 import sys
 import math
-
-import config
+import myciphers.config as config
 
 ## Initialise default English frequencies
 class ngram_score():
@@ -288,3 +287,7 @@ def get_factors(num):
 	return sorted(factors)
 
 
+## TEACHING FUNCTIONS
+def slow_wait():
+	if config.slow_mode:
+		input()
