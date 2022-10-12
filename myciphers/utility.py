@@ -286,8 +286,3 @@ def get_factors(num):
 				factors.append(int(num / i))
 	return sorted(factors)
 
-
-## TEACHING FUNCTIONS
-def slow_wait():
-	if config.slow_mode:
-		input()

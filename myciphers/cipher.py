@@ -1,4 +1,5 @@
 import myciphers.config as config
+
 class Cipher():	
 	def __init__(self, key):
 		self.key = key

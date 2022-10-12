@@ -18,4 +18,3 @@ keep_case = False
 
 # teaching
 detailed = True
-slow_mode = True
