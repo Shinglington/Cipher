@@ -4,8 +4,8 @@ import myciphers.config as config
 class Caesar(Cipher):
 	def __init__(self, key = 13, alphabet = config.alphabet_upper, detailed = config.detailed, teaching = config.teaching):
 		self.alphabet = alphabet
-		Cipher.__init__(self, key % len(self.alphabet), detailed)
-
+		Cipher.__init__(self, detailed, teaching)
+		self.key = key % len(self.alphabet)
 	
 	def encrypt(self, text):
 		## \/ TEACHING SECTION \/ ##

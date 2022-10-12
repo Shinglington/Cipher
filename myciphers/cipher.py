@@ -1,14 +1,13 @@
 import myciphers.config as config
 import myciphers.utility as util
 class Cipher():	
-	def __init__(self, key, 
+	def __init__(self, 
 				 detailed = config.detailed, 
 				 teaching = config.teaching,
 				 keep_spaces = config.keep_spaces, 
 				 keep_punct = config.keep_punct, 
 				 keep_num = config.numbers, 
 				 keep_case = config.keep_case):
-		self.key = key
 		self.detailed = detailed
 		self.teaching = teaching
 		self.keep_spaces = keep_spaces
