@@ -161,7 +161,6 @@ def POLY_SUB():
 	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
 
 def vigenere():
-	import myciphers.vigenere as vig
 	def encrypt():
 		text = util.raw_input("Enter Plaintext: ")
 		key = util.get_string_choice("Enter Key")
@@ -177,14 +176,13 @@ def vigenere():
 			key_length = 0
 			if known_length:
 				key_length = util.get_int_choice("Enter key length:")
-			guessed_keys = vig.guess_key(text, key_length)
+			guessed_keys = ciph.Vigenere.guess_key(text, key_length)
 			# Add all key and decryption combinations to a dictionary
 			possible_decryptions = {}
 			for k in guessed_keys:
 				# replace unknowns with "A"
 				k = k.replace("?", "A")
 				possible_decryptions.update({k:ciph.Vigenere(k).decrypt(text)})
-			# sort dictionary by decryption ioc
 			possible_decryptions = dict(sorted(possible_decryptions.items(), key = lambda item : util.expected_ngrams.calc_fitness(item[1]), reverse = True))
 			
 			# show top 5 results

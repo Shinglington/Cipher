@@ -70,116 +70,122 @@ class Vigenere(Cipher):
 			plaintext += new_char
 		return plaintext
 
-def guess_key_length(text, max_length = 20):
-	text = util.filter_text(text, keep_spaces = False, keep_punct = False, keep_case = False)
-	ioc_list = []
-	for col_len in range(1, max_length):
-		columns = []
-		for col_num in range(col_len):
+
+	## STATIC METHODS ##
+	def guess_key_length(text, max_length = 20):
+		text = util.filter_text(text, 
+								keep_spaces = False, 
+								keep_punct = False, 
+								keep_case = False)
+		ioc_list = []
+		for col_len in range(1, max_length):
+			columns = []
+			for col_num in range(col_len):
+				this_column = ""
+				for j in range(col_num, len(text), col_len):
+					this_column += text[j]
+				columns.append(this_column)
+	
+			column_iocs = []
+			for c in columns:
+				ioc = 0
+				if len(c) > 1:
+					ioc = util.calc_ioc(c)
+				column_iocs.append(ioc)
+			average_ioc = sum(column_iocs) / len(column_iocs)
+			ioc_list.append(average_ioc)
+	
+			## print iocs
+			if config.detailed:
+				print("Length {0}, IOC {1}".format(col_len, average_ioc))
+	
+		key_length = 0
+		for i in range(len(ioc_list)):
+			if key_length == 0:
+				key_length = i+1
+			elif ioc_list[i] > ioc_list[key_length - 1]:
+				key_length = i+1
+		
+		return key_length
+
+
+	def guess_column_key(column):
+		from myciphers.caesar import Caesar
+		possible_letters = []
+		# First, get letter frequencies in column
+		col_freq = list(util.ngram(column, 1).keys())
+		# Add missing letters to frequency list
+		for letter in config.alphabet_upper:
+			if letter not in col_freq:
+				col_freq.append(letter)
+	
+		possible_shifts = {}
+		# check each caesar shift
+		# perform chi squared test on each shift
+		for shift in range(26):
+			decryption = Caesar(shift).decrypt(column)
+			chi_score = util.calc_chi_squared(decryption)
+			possible_shifts.update({shift:chi_score})
+	
+		possible_decryptions = dict(sorted(possible_shifts.items(), key = lambda item : item[1]))
+		lowest_chi = list(possible_decryptions.values())[0]
+		for i in range(len(possible_decryptions)):
+			shift = list(possible_decryptions.keys())[i]
+			if possible_decryptions[shift] < (2 * lowest_chi):
+				possible_letters.append(config.alphabet_upper[shift])
+			else:
+				break
+		"""
+		# Map most frequent letters in column to most frequent letters in english
+		E_keys = []
+		for i in range(6):
+			col_letter = col_freq[i]
+			key_letter = Vigenere().get_keychar("E", col_letter)
+			E_keys.append(key_letter)
+	
+		# Map least frequent letters letters in column to least frequent letters in english
+		Z_keys  = []
+		for i in range(1, 7):
+			col_letter = col_freq[-i]
+			key_letter = Vigenere().get_keychar("Z", col_letter)
+			Z_keys.append(key_letter)
+	
+		# Check for common letters in z and e keys
+		for key in E_keys:
+			if key in Z_keys:
+				possible_letters.append(key)
+		"""
+		return possible_letters
+		
+	
+	def guess_key(text, length = 0):
+		if length == 0:
+			length = Vigenere.guess_key_length(text)
+		print(length)
+		text = util.filter_text(text, keep_spaces = False, keep_punct = False, keep_case = False)
+		possible_keyword = []
+		# guess key of each "column"
+		for col_num in range(length):
 			this_column = ""
-			for j in range(col_num, len(text), col_len):
+			for j in range(col_num, len(text), length):
 				this_column += text[j]
-			columns.append(this_column)
-
-		column_iocs = []
-		for c in columns:
-			ioc = 0
-			if len(c) > 1:
-				ioc = util.calc_ioc(c)
-			column_iocs.append(ioc)
-		average_ioc = sum(column_iocs) / len(column_iocs)
-		ioc_list.append(average_ioc)
-
-		## print iocs
-		print("Length {0}, IOC {1}".format(col_len, average_ioc))
-
-	key_length = 0
-	for i in range(len(ioc_list)):
-		if key_length == 0:
-			key_length = i+1
-		elif ioc_list[i] > ioc_list[key_length - 1]:
-			key_length = i+1
+			# add guessed key to possible keyword
+			possible_keyword.append(Vigenere.guess_column_key(this_column))
 	
-	return key_length
-
-
-def guess_column_key(column):
-	from myciphers.caesar import Caesar
-	possible_letters = []
-	# First, get letter frequencies in column
-	col_freq = list(util.ngram(column, 1).keys())
-	# Add missing letters to frequency list
-	for letter in config.alphabet_upper:
-		if letter not in col_freq:
-			col_freq.append(letter)
-
-	possible_shifts = {}
-	# check each caesar shift
-	# perform chi squared test on each shift
-	for shift in range(26):
-		decryption = Caesar(shift).decrypt(column)
-		chi_score = util.calc_chi_squared(decryption)
-		possible_shifts.update({shift:chi_score})
-
-	possible_decryptions = dict(sorted(possible_shifts.items(), key = lambda item : item[1]))
-	lowest_chi = list(possible_decryptions.values())[0]
-	for i in range(len(possible_decryptions)):
-		shift = list(possible_decryptions.keys())[i]
-		if possible_decryptions[shift] < (2 * lowest_chi):
-			possible_letters.append(config.alphabet_upper[shift])
-		else:
-			break
-	"""
-	# Map most frequent letters in column to most frequent letters in english
-	E_keys = []
-	for i in range(6):
-		col_letter = col_freq[i]
-		key_letter = Vigenere().get_keychar("E", col_letter)
-		E_keys.append(key_letter)
-
-	# Map least frequent letters letters in column to least frequent letters in english
-	Z_keys  = []
-	for i in range(1, 7):
-		col_letter = col_freq[-i]
-		key_letter = Vigenere().get_keychar("Z", col_letter)
-		Z_keys.append(key_letter)
-
-	# Check for common letters in z and e keys
-	for key in E_keys:
-		if key in Z_keys:
-			possible_letters.append(key)
-	"""
-	return possible_letters
-	
-
-def guess_key(text, length = 0):
-	if length == 0:
-		length = guess_key_length(text)
-	print(length)
-	text = util.filter_text(text, keep_spaces = False, keep_punct = False, keep_case = False)
-	possible_keyword = []
-	# guess key of each "column"
-	for col_num in range(length):
-		this_column = ""
-		for j in range(col_num, len(text), length):
-			this_column += text[j]
-		# add guessed key to possible keyword
-		possible_keyword.append(guess_column_key(this_column))
-
-	keywords = [""]
-	# loop through each "column" possible key
-	for i in range(length):
-		key_letters = possible_keyword[i]
-		# If no possible letter, add a "?"
-		if len(key_letters) == 0:
-			key_letters = ["?"]
-		# for existing partial keywords, add new possibilities
-		new_keywords = []
-		for j in range(len(keywords)):
-			for k in key_letters:
-				new_keywords.append(keywords[j] + k)
-		keywords = new_keywords
-	return keywords
+		keywords = [""]
+		# loop through each "column" possible key
+		for i in range(length):
+			key_letters = possible_keyword[i]
+			# If no possible letter, add a "?"
+			if len(key_letters) == 0:
+				key_letters = ["?"]
+			# for existing partial keywords, add new possibilities
+			new_keywords = []
+			for j in range(len(keywords)):
+				for k in key_letters:
+					new_keywords.append(keywords[j] + k)
+			keywords = new_keywords
+		return keywords
 
 
 	
