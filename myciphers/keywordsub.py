@@ -7,7 +7,7 @@ class KeywordSub(Cipher):
 				 alphabet = config.alphabet_upper):
 		Cipher.__init__(self, alphabet)
 		self.keyword = keyword.upper()
-		self.cipher_alphabet = KeywordSub.generate_cipher_alphabet(keyword, alphabet)
+		self.cipher_alphabet = KeywordSub.generate_cipher_alphabet(self.keyword, alphabet)
 		
 	def generate_cipher_alphabet(keyword, alphabet):
 		cipher_alphabet = ""
@@ -26,7 +26,7 @@ class KeywordSub(Cipher):
 		return SimpleSub(self.cipher_alphabet).encrypt(text)
 		
 	def decrypt(self, text):
-		SimpleSub(self.cipher_alphabet).decrypt(text)
+		return SimpleSub(self.cipher_alphabet).decrypt(text)
 
 	def dictionary_attack(text):
 		return text
