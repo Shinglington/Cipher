@@ -1,13 +1,5 @@
 {
   "files": {
-    "analysis_ui.py": [
-      {
-        "id": "5adb1217-003b-471d-b14e-a3abe95d05b9",
-        "line": 53,
-        "version": 2098,
-        "index": 1888
-      }
-    ],
     "myciphers/simplesub.py": [
       {
         "id": "00008705-55db-40f5-a57b-b71705eebfcb",
