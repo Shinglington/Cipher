@@ -16,7 +16,7 @@ class Caesar(Cipher):
 			print("\nUsing Caesar Cipher shift {0} to encrypt text".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 			
-		text = self.prep_text(text)
+		text = self.prep_text(text, keep_punct = False, keep_spaces = False)
 		ciphertext = ""
 		for c in text:
 			new_char = c.upper()

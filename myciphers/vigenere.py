@@ -4,9 +4,8 @@ import myciphers.config as config
 
 class Vigenere(Cipher):
 	def __init__(self, key = "ABCDEF", alphabet = config.alphabet_upper):
-		Cipher.__init__(self)
+		Cipher.__init__(self, alphabet)
 		self.key = key.upper()
-		self.alphabet = alphabet
 		self.grid = self.tabula_recta()
 
 	def tabula_recta(self):
@@ -42,7 +41,7 @@ class Vigenere(Cipher):
 
 		
 	def encrypt(self, text):
-		text = self.prep_text(text, )
+		text = self.prep_text(text, keep_spaces = False, keep_punct = False)
 		ciphertext = ""
 		keyindex = 0
 		for c in text:
@@ -57,7 +56,7 @@ class Vigenere(Cipher):
 		return ciphertext
                 
 
-	def decrypt(self, text):
+	def decrypt(self, text, keep_spaces = False, keep_punct = True):
 		text = self.prep_text(text)
 		plaintext = ""
 		keyindex = 0

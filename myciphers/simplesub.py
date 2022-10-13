@@ -13,7 +13,7 @@ class SimpleSub(Cipher):
 		if config.detailed:
 			print("\nUsing Simple Substitution Cipher shift {0} to decrypt text".format(self.key))
 		## /\ TEACHING SECTION /\ ##
-		text = self.prep_text(text)
+		text = self.prep_text(text, keep_punct = False)
 		ciphertext = ""
 		for c in text:
 			new_char = c.upper()
@@ -24,9 +24,9 @@ class SimpleSub(Cipher):
 			ciphertext += new_char
 		return ciphertext
 		
-	def decrypt(self, text, keep_spaces=True, keep_punct=True, keep_num=True):
+	def decrypt(self, text):
 		## if ciphertext has punctuation, spaces and numbers, no harm in keepng them for plaintext 
-		text = self.prep_text(text, keep_spaces, keep_punct, keep_num)
+		text = self.prep_text(text, keep_space = True, keep_punct = True)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()

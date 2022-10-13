@@ -22,7 +22,7 @@ class Affine(Cipher):
 		
 	
 	def encrypt(self, text):
-		text = self.prep_text(text)
+		text = self.prep_text(text, keep_punct = False)
 		ciphertext = ""
 		for c in text:
 			new_char = c.upper()
@@ -37,7 +37,7 @@ class Affine(Cipher):
 
 	def decrypt(self, text):
 		## No harm in keeping extra letters since they don't affect decryption
-		text = self.prep_text(text)
+		text = self.prep_text(text, keep_punct = True)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()

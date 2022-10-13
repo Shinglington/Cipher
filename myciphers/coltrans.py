@@ -66,7 +66,7 @@ class ColTrans(Cipher):
           
             
 	def encrypt(self, text):
-		text = self.prep_text(text)
+		text = self.prep_text(text, keep_spaces = False, keep_punct = False)
 		columns = self.cols_from_plaintext(text)
 		return self.ciphertext_from_col(columns, self.get_order(self.key))
 
