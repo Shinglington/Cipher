@@ -48,7 +48,10 @@ class Affine(Cipher):
 		## /\ DETAILED SECTION /\ ##
 
 		## No harm in keeping extra letters since they don't affect decryption
-		text = self.prep_text(text, keep_punct = True)
+		text = self.prep_text(text, 
+							  keep_punct = True, 
+							  keep_spaces = True, 
+							  keep_num = True)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()

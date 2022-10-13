@@ -108,24 +108,26 @@ def calc_chi_squared(text):
 	return chi_squared
 
 ### ORDER BY FITNESS SCORE
-def order_by_english_likelihood(decryption_dict):
+def order_by_likelihood(decryption_dict):
 	key_fitness = {}
 	for key in decryption_dict:
 		text = decryption_dict[key]
 		key_fitness[key] = expected_ngrams.calc_fitness(text)
-
+	
 	## sort by fitness
 	decryption_dict = dict(sorted(decryption_dict.items(), key = lambda items : key_fitness[items[0]], reverse = True))
 
 	return decryption_dict
 
-	
-		
-	
-
-
-				
-	
+def display_decryptions(decryption_dict, count = 3):
+	print("\n\n\n###DECRYPTIONS ORDERED BY LIKELIHOOD###")
+	decryptions = order_by_likelihood(decryption_dict)
+	print("Most likely decryptions:")
+	for i in range(count):
+		key = list(decryptions.keys())[i]
+		print("{0}. Key = {1}".format(i+1, key))
+		print(decryptions[key])
+		print("\n\n")
 
 ### USER INPUTS ###
 def raw_input(prompt):

@@ -45,7 +45,8 @@ class Caesar(Cipher):
 			
 		text = self.prep_text(text, 
 							  keep_punct = True, 
-							  keep_num = True)
+							  keep_num = True,
+							  keep_spaces = True)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()
@@ -66,3 +67,15 @@ class Caesar(Cipher):
 				input()
 			## /\ TEACHING SECTION /\ ##
 		return plaintext
+
+
+	def brute_force_decrypt(text, alphabet = config.alphabet_upper):
+		decryptions = {} # where key is the shift
+		for i in range(0, 26):
+			decrypt = Caesar(i).decrypt(text)
+			decryptions.update({i:decrypt})
+			if config.detailed:
+				print("\nShift = {0}".format(i))
+				print(decrypt[:min(len(decrypt), 20)] + "...")
+		return decryptions
+		

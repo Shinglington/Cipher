@@ -2,6 +2,7 @@ from myciphers.cipher import Cipher
 
 from myciphers.caesar import Caesar
 from myciphers.simplesub import SimpleSub
+from myciphers.keywordsub import KeywordSub
 from myciphers.coltrans import ColTrans
 from myciphers.vigenere import Vigenere
 from myciphers.affine import Affine
