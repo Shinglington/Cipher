@@ -52,7 +52,7 @@ def simple_substitution():
 	
 	def encrypt():
 		text = util.raw_input("Enter Plaintext: ")
-		key = util.get_string_choice("Enter Corresponding Cipher Alphabet\n" + ciph.Cipher.uppercase + "\n            \/", 26)
+		key = util.get_string_choice("Enter Corresponding Cipher Alphabet\n" + config.alphabet_upper + "\n            \/", 26)
 		print(ciph.SimpleSub(key).encrypt(text))
 
 	def decrypt():
@@ -66,7 +66,7 @@ def simple_substitution():
 			text = util.raw_input("Enter Ciphertext: ").lower()
 			partial_alphabet = {} ## Stores partial cipher -> plain alphabet
 			## Initialise dictionary
-			for letter in ciph.Cipher.uppercase:
+			for letter in config.alphabet_upper:
 				partial_alphabet.update({letter:None})
 			## Loop trial and error decryption
 			while not done:
@@ -123,30 +123,24 @@ def affine():
 			text = util.raw_input("Enter Ciphertext:")
 			a = util.get_int_choice("Enter a:", range(0,26))
 			b = util.get_int_choice("Enter b:", range(0,26))
-			if ciph.Affine(a, b).calc_inverse_key() != -1:
+			if ciph.Affine.calc_inverse_key(a) != -1:
 				print(ciph.Affine(a, b).decrypt(text))
 			else:
-				print("Invalid a value, no inverse exists")
+				print("Invalid 'a' value, no inverse exists")
 					
 		def brute_force():
 			text = util.raw_input("Enter Ciphertext:")
-			decryptions = []
-			for a in range(1, 26):
-				for b in range(0, 26):
-					if ciph.Affine(a, b).calc_inverse_key() != -1:
-						decrypt = ciph.Affine(a, b).decrypt(text)
-						print("a = {0}, b = {1}".format(a, b))
-						print(decrypt[0:min(len(decrypt), 20)] + "...")
-						print()
-						decryptions.append(decrypt)
+			decryptions = ciph.Affine.brute_force_decrypt(text)
 
 			## Attempt to guess most likely correct decryption
 			print("\n\n\n")
-			ordered_decryptions = list(util.order_by_english_likelihood(decryptions).keys())
+			decryptions = util.order_by_english_likelihood(decryptions)
 			print("Most likely decryptions:")
 			for i in range(3):
-				print("{0}:".format(i+1))
-				print(ordered_decryptions[i])
+				key = list(decryptions.keys())[i]
+				print("{0}. a = {1}, b = {2}"
+					  .format(i, key[0], key[1]))
+				print(decryptions[key])
 				print("\n\n")
 			
 		choices = {"Known Key":known_key

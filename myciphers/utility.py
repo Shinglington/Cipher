@@ -75,16 +75,8 @@ def get_expected_ngrams(n, count=26):
 		shortened_dict.update({key: ngram_dict[key]})
 	return shortened_dict
 
-
-def order_by_english_likelihood(decryptions, n=4):
-	decrypt_scores = {}
-	for d in decryptions:
-		decrypt_scores.update({d: expected_ngrams.calc_fitness(d, n)})
-	decrypt_scores = sort_dict(decrypt_scores)
-	return decrypt_scores
-
-
-### FITNESS CALCULATORS
+### FITNESS CALCULATORS ##
+	
 ### IOC Calculator
 def calc_ioc(text):
 	text = filter_text(text, keep_spaces = False, keep_punct = False, keep_num = False)
@@ -115,6 +107,25 @@ def calc_chi_squared(text):
 		chi_squared += result
 	return chi_squared
 
+### ORDER BY FITNESS SCORE
+def order_by_english_likelihood(decryption_dict):
+	key_fitness = {}
+	for key in decryption_dict:
+		text = decryption_dict[key]
+		key_fitness[key] = expected_ngrams.calc_fitness(text)
+
+	## sort by fitness
+	decryption_dict = dict(sorted(decryption_dict.items(), key = lambda items : key_fitness[items[0]], reverse = True))
+
+	return decryption_dict
+
+	
+		
+	
+
+
+				
+	
 
 ### USER INPUTS ###
 def raw_input(prompt):
@@ -288,7 +299,8 @@ def filter_text(text, filter = "",
 
 
 ## GENERAL ##
-def sort_dict(unsorted_dict, reverse = True):
-	sorted_dict = dict(sorted(unsorted_dict.items(), key = lambda item: item[1], reverse=reverse))
+def sort_dict(unsorted_dict, 
+			  reverse = True):
+	sorted_dict = dict(sorted(unsorted_dict.items(), key = lambda item : item[1], reverse=reverse))
 	return sorted_dict
 

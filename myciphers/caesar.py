@@ -8,10 +8,10 @@ class Caesar(Cipher):
 		self.key = key % len(self.alphabet)
 	
 	def encrypt(self, text):
-		## \/ TEACHING SECTION \/ ##
-		if config.teaching:
+		## \/ DETAILED SECTION \/ ##
+		if config.detailed:
 			print("\nUsing Caesar Cipher shift {0} to encrypt text".format(self.key))
-		## /\ TEACHING SECTION /\ ##
+		## /\ DETAILED SECTION /\ ##
 			
 		text = self.prep_text(text, 
 							  keep_punct = False, 
@@ -38,10 +38,10 @@ class Caesar(Cipher):
 
 	
 	def decrypt(self, text):
-		## \/ TEACHING SECTION \/ ##
-		if config.teaching:
+		## \/ DETAILED SECTION \/ ##
+		if config.detailed:
 			print("\nUsing Caesar Cipher shift {0} to decrypt text".format(self.key))
-		## /\ TEACHING SECTION /\ ##
+		## /\ DETAILED SECTION /\ ##
 			
 		text = self.prep_text(text, 
 							  keep_punct = True, 
@@ -50,7 +50,8 @@ class Caesar(Cipher):
 		for c in text:
 			new_char = c.upper()
 			if new_char in self.alphabet:
-				new_index = (self.alphabet.index(new_char) + (len(self.alphabet) - self.key)) % len(self.alphabet)
+				new_index = (self.alphabet.index(new_char) 
+							 + (len(self.alphabet) - self.key)) % len(self.alphabet)
 				new_char = self.alphabet[new_index]
 
 			if c.islower() and self.keep_case:
