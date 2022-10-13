@@ -4,9 +4,11 @@ import myciphers.config as config
  
 def MONO_SUB(): 
 	### MONOALPHABETIC SUBSTITUTION ###
-	choices = {"Caesar":caesar
-			  ,"Simple Substitution":simple_substitution
-			  ,"Affine Cipher":affine}
+	choices = {"Caesar":caesar,
+			   "Affine Cipher":affine,
+			   "Simple Substitution":simple_substitution,
+			   "Keyword Substitution":keyword_substitution
+}
 	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
 def caesar():
 	def encrypt():
@@ -21,22 +23,8 @@ def caesar():
 			print(ciph.Caesar(shift).decrypt(text))
 		def brute_force():
 			text = util.raw_input("Enter Ciphertext:")
-			decryptions = []
-			for i in range(0, 26):
-				decrypt = ciph.Caesar(i).decrypt(text)
-				print("shift = {0}".format(i))
-				print(decrypt)
-				print()
-				decryptions.append(decrypt)
-
-			## Attempt to guess most likely correct decryption
-			print("\n\n\n")
-			ordered_decryptions = list(util.order_by_english_likelihood(decryptions).keys())
-			print("Most likely decryptions:")
-			for i in range(3):
-				print("{0}:".format(i+1))
-				print(ordered_decryptions[i])
-				print("\n\n")
+			decryptions = ciph.Caesar.brute_force_decrypt(text)
+			util.display_decryptions(decryptions)
 			
 		choices = {"Known Key":known_key
 				  ,"Brute Force":brute_force}
@@ -48,11 +36,43 @@ def caesar():
 	util.display_menu("Caesar Cipher", choices)
 
 
+def affine():
+	def encrypt():
+		print("")
+		text = util.raw_input("Enter Plaintext: ")
+		a = util.get_int_choice("Enter a:", range(0,26))
+		b = util.get_int_choice("Enter b:", range(0,26))
+		print(ciph.Affine(a, b).encrypt(text))
+			
+	def decrypt():
+		def known_key():
+			text = util.raw_input("Enter Ciphertext:")
+			a = util.get_int_choice("Enter a:", range(0,26))
+			b = util.get_int_choice("Enter b:", range(0,26))
+			if ciph.Affine.calc_inverse_key(a) != -1:
+				print(ciph.Affine(a, b).decrypt(text))
+			else:
+				print("Invalid 'a' value, no inverse exists")
+					
+		def brute_force():
+			text = util.raw_input("Enter Ciphertext:")
+			decryptions = ciph.Affine.brute_force_decrypt(text)
+			util.display_decryptions(decryptions)
+			
+		choices = {"Known Key":known_key
+				  ,"Brute Force":brute_force}
+		util.display_menu("Decryption", choices)
+
+	## UI ##
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	util.display_menu("Affine Cipher", choices)
+	
 def simple_substitution():
 	
 	def encrypt():
 		text = util.raw_input("Enter Plaintext: ")
-		key = util.get_string_choice("Enter Corresponding Cipher Alphabet\n" + ciph.Cipher.uppercase + "\n            \/", 26)
+		key = util.get_string_choice("Enter Corresponding Cipher Alphabet\n" + config.alphabet_upper + "\n            \/", 26)
 		print(ciph.SimpleSub(key).encrypt(text))
 
 	def decrypt():
@@ -66,7 +86,7 @@ def simple_substitution():
 			text = util.raw_input("Enter Ciphertext: ").lower()
 			partial_alphabet = {} ## Stores partial cipher -> plain alphabet
 			## Initialise dictionary
-			for letter in ciph.Cipher.uppercase:
+			for letter in config.alphabet_upper:
 				partial_alphabet.update({letter:None})
 			## Loop trial and error decryption
 			while not done:
@@ -110,61 +130,37 @@ def simple_substitution():
 	
 
 
-def affine():
+def keyword_substitution():
 	def encrypt():
-		print("")
 		text = util.raw_input("Enter Plaintext: ")
-		a = util.get_int_choice("Enter a:", range(0,26))
-		b = util.get_int_choice("Enter b:", range(0,26))
-		print(ciph.Affine(a, b).encrypt(text))
-			
-	def decrypt():
-		def known_key():
-			text = util.raw_input("Enter Ciphertext:")
-			a = util.get_int_choice("Enter a:", range(0,26))
-			b = util.get_int_choice("Enter b:", range(0,26))
-			if ciph.Affine(a, b).calc_inverse_key() != -1:
-				print(ciph.Affine(a, b).decrypt(text))
-			else:
-				print("Invalid a value, no inverse exists")
-					
-		def brute_force():
-			text = util.raw_input("Enter Ciphertext:")
-			decryptions = []
-			for a in range(1, 26):
-				for b in range(0, 26):
-					if ciph.Affine(a, b).calc_inverse_key() != -1:
-						decrypt = ciph.Affine(a, b).decrypt(text)
-						print("a = {0}, b = {1}".format(a, b))
-						print(decrypt[0:min(len(decrypt), 20)] + "...")
-						print()
-						decryptions.append(decrypt)
+		keyword = util.get_string_choice("Enter keyword: ")
+		print(ciph.KeywordSub(keyword).encrypt(text))
 
-			## Attempt to guess most likely correct decryption
-			print("\n\n\n")
-			ordered_decryptions = list(util.order_by_english_likelihood(decryptions).keys())
-			print("Most likely decryptions:")
-			for i in range(3):
-				print("{0}:".format(i+1))
-				print(ordered_decryptions[i])
-				print("\n\n")
-			
-		choices = {"Known Key":known_key
-				  ,"Brute Force":brute_force}
-		util.display_menu("Decryption", choices)
+	def decrypt():
+		def normal_decrypt():
+			text = util.raw_input("Enter Ciphertext: ")
+			keyword = util.get_string_choice("Enter keyword: ")
+			print(ciph.KeywordSub(keyword).decrypt(text))
+		def dictionary_attack():
+			text = util.raw_input("Enter Ciphertext: ")
+			decryptions = ciph.KeywordSub.dictionary_attack(text)
+			util.display_decryptions(decryptions)
+		
+		choices = {"Known Keyword":normal_decrypt
+				  ,"Dictionary Attack":dictionary_attack}
+		util.display_menu("", choices)
 
 	## UI ##
 	choices = {"Encrypt":encrypt
 			  ,"Decrypt":decrypt}
-	util.display_menu("Affine Cipher", choices)
-	
+	util.display_menu("Simple Substitution Cipher", choices)
+
 def POLY_SUB(): 
 	### POLYALPHABETIC SUBSTITUTION ###
 	choices = {"Vigenere":vigenere}
 	util.display_menu("Monoalphabetic Substitution Ciphers", choices)
 
 def vigenere():
-	import myciphers.vigenere as vig
 	def encrypt():
 		text = util.raw_input("Enter Plaintext: ")
 		key = util.get_string_choice("Enter Key")
@@ -180,14 +176,13 @@ def vigenere():
 			key_length = 0
 			if known_length:
 				key_length = util.get_int_choice("Enter key length:")
-			guessed_keys = vig.guess_key(text, key_length)
+			guessed_keys = ciph.Vigenere.guess_key(text, key_length)
 			# Add all key and decryption combinations to a dictionary
 			possible_decryptions = {}
 			for k in guessed_keys:
 				# replace unknowns with "A"
 				k = k.replace("?", "A")
 				possible_decryptions.update({k:ciph.Vigenere(k).decrypt(text)})
-			# sort dictionary by decryption ioc
 			possible_decryptions = dict(sorted(possible_decryptions.items(), key = lambda item : util.expected_ngrams.calc_fitness(item[1]), reverse = True))
 			
 			# show top 5 results

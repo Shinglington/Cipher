@@ -7,12 +7,11 @@ class SimpleSub(Cipher):
 				 alphabet = config.alphabet_upper):
 		Cipher.__init__(self, alphabet)
 		self.key = key
-		self.alphabet = alphabet
 
 	def encrypt(self, text):
 		## \/ TEACHING SECTION \/ ##
 		if config.detailed:
-			print("\nUsing Simple Substitution Cipher shift {0} to decrypt text".format(self.key))
+			print("\nUsing Simple Substitution Cipher to decrypt text" + "\nCipher Alphabet is {0}".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 		text = self.prep_text(text, keep_punct = False)
 		ciphertext = ""
