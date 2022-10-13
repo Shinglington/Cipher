@@ -3,20 +3,19 @@ import myciphers.config as config
 
 class Caesar(Cipher):
 	def __init__(self, key = 13,
-				 alphabet = config.alphabet_upper, 
-				 detailed = config.detailed, 
-				 teaching = config.teaching):
-		self.alphabet = alphabet
+				 alphabet = config.alphabet_upper):
+		Cipher.__init__(self, alphabet)
 		self.key = key % len(self.alphabet)
-		Cipher.__init__(self, detailed, teaching)
 	
 	def encrypt(self, text):
 		## \/ TEACHING SECTION \/ ##
-		if self.teaching:
+		if config.teaching:
 			print("\nUsing Caesar Cipher shift {0} to encrypt text".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 			
-		text = self.prep_text(text, keep_punct = False, keep_spaces = False)
+		text = self.prep_text(text, 
+							  keep_punct = False, 
+							  keep_spaces = False)
 		ciphertext = ""
 		for c in text:
 			new_char = c.upper()
@@ -29,7 +28,7 @@ class Caesar(Cipher):
 			ciphertext += new_char
 			
 			## \/ TEACHING SECTION \/ ##
-			if self.teaching:
+			if config.teaching:
 				print("\nThe Plaintext Character is '{0}',we shift right by '{1}', and get '{2}'".format(c.upper(), self.key, new_char))
 				print(self.alphabet.lower().replace(c.lower(), c.upper()).replace(new_char.lower(), new_char.upper()))
 				print("\nWe now have {0}".format(ciphertext))
@@ -40,11 +39,13 @@ class Caesar(Cipher):
 	
 	def decrypt(self, text):
 		## \/ TEACHING SECTION \/ ##
-		if self.teaching:
+		if config.teaching:
 			print("\nUsing Caesar Cipher shift {0} to decrypt text".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 			
-		text = self.prep_text(text, keep_punct = True, keep_num = True)
+		text = self.prep_text(text, 
+							  keep_punct = True, 
+							  keep_num = True)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()
@@ -57,7 +58,7 @@ class Caesar(Cipher):
 			plaintext += new_char
 			
 			## \/ TEACHING SECTION \/ ##
-			if self.teaching:
+			if config.teaching:
 				print("\nThe Cipher Character is '{0}', we shift left by '{1}', and get '{2}'".format(c.upper(), self.key, new_char.upper()))
 				print(self.alphabet.lower().replace(c.lower(), c.upper()).replace(new_char.lower(), new_char.upper()))
 				print("\nWe now have {0}".format(plaintext))

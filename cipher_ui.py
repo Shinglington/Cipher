@@ -223,7 +223,7 @@ def col_trans():
 	def decrypt():
 		text = util.raw_input("Enter Cipher Text")
 		key = util.get_string_choice("Enter Key")
-		print(ciph.ColTrans(key).decrypt(text, show_display = True))
+		print(ciph.ColTrans(key).decrypt(text))
 
 		
 	## UI ##

@@ -3,8 +3,9 @@ import myciphers.config as config
 
 
 class SimpleSub(Cipher):
-	def __init__(self, key = config.alphabet_upper, alphabet = config.alphabet_upper):
-		Cipher.__init__(self)
+	def __init__(self, key = config.alphabet_upper, 
+				 alphabet = config.alphabet_upper):
+		Cipher.__init__(self, alphabet)
 		self.key = key
 		self.alphabet = alphabet
 
