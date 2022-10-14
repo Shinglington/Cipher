@@ -208,7 +208,8 @@ def vigenere():
 
 def TRANSPOSITION():
 	### TRANSPOSITION ###
-	choices = {"Column Transposition":col_trans}
+	choices = {"Column Transposition":col_trans
+			  ,"Railfence Cipher":rail_fence}
 	display_menu("Transposition Ciphers", choices)
 
 def col_trans():
@@ -227,6 +228,21 @@ def col_trans():
 			  ,"Decrypt":decrypt}
 	display_menu("COLUMN TRANSPOSITION CIPHER", choices)
 
+def rail_fence():
+	def encrypt():
+		text = raw_input("Enter Plaintext")
+		key = get_int_choice("Enter Key")
+		print(ciph.RailFence(key).encrypt(text))
+
+	def decrypt():
+		text = raw_input("Enter Ciphertext")
+		key = get_int_choice("Enter Key")
+		print(ciph.RailFence(key).decrypt(text))
+
+	## UI ##
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	display_menu("RAILFENCE CIPHER", choices)
 
 def POLY_TRANS():
 	### POLYGRAPHIC TRANSPOSITION CIPHERS

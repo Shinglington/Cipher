@@ -13,8 +13,10 @@ from myciphers.vigenere import Vigenere
 
 ## POLYGRAPHIC SUBSTITUTION
 from myciphers.playfair import Playfair
+
 ## TRANSPOSITION
 from myciphers.coltrans import ColTrans
+from myciphers.railfence import RailFence
 
 import myciphers.utility
 import myciphers.config
