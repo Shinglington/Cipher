@@ -18,6 +18,8 @@ from myciphers.playfair import Playfair
 from myciphers.coltrans import ColTrans
 from myciphers.railfence import RailFence
 
+
+## OTHER
 import myciphers.utility
 import myciphers.config
 

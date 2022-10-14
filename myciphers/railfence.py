@@ -8,28 +8,33 @@ class RailFence(Cipher):
 
 	
 	def make_fence(self, text):
-		fence =[[None] * len(text) for row in range(self.key)]
-
+		fence =[[""] * len(text) for row in range(self.key)]
 		rail = 0
+		descending = True
 		for i in range(len(text)):
-			fence[rail][i]
-		
-
-
-
-		if config.detailed:
-			self.display_fence(fence)
+			fence[rail][i] = text[i]
+			## check if descending state needs changing
+			if rail + 1 >= self.key and descending:
+				descending = False
+			elif rail - 1 < 0 and not descending:
+				descending = True
+			## increment or decrement rail
+			if descending:
+				rail += 1	
+			else:
+				rail -= 1
+				
 		return fence
 
 	def display_fence(self, fence):
 		for row in fence:
-			row = ""
+			line = ""
 			for char in row:
-				if char == None:
-					row += " "
+				if char == "":
+					line += " "
 				else:
-					row += char
-			print(row)
+					line += str(char)
+			print(line)
 		
 
 	def encrypt(self, text):
@@ -38,11 +43,32 @@ class RailFence(Cipher):
 							  keep_num = True,
 							  keep_punct = False)
 		fence = self.make_fence(text)
-		return text
+		## reading fence
+		if config.detailed:
+			print("\nRAILFENCE")
+			self.display_fence(fence)
+			print()
+		return "".join("".join(row) for row in fence)
 
 	def decrypt(self, text):
 		text = self.prep_text(text,
 							  keep_spaces = False,
 							  keep_num = True)
-		fence = self.make_fence(text)
-		return text
+		indices = self.make_fence(range(len(text)))
+		ciphertext = [""] * len(text)
+		text_pos = 0
+		for row in indices:
+			for i in row:
+				if i != "":
+					if text_pos < len(text):
+						ciphertext[i] = text[text_pos]
+						text_pos += 1
+
+		return "".join(ciphertext)
+
+
+	def brute_force_decrypt(text, max_rails = 10):
+		decryptions = {}
+		for rail_count in range(2, max_rails):
+			decryptions.update({rail_count:RailFence(rail_count).decrypt(text)})
+		return decryptions

@@ -12,7 +12,7 @@ class Cipher():
     	
 	def decrypt(self, text):
 		return text
-		
+
 	def prep_text(self, text, 				
 				  keep_spaces = config.keep_spaces,
 				  keep_punct = config.keep_punct,
@@ -47,3 +47,8 @@ class Cipher():
 				print("{0} : {1}".format(k, removed_characters[k]))
 		## /\ DETAILED REPORT /\ ##
 		return filtered_text
+
+
+		def brute_force(text):
+			decryptions = {}
+			return decryptions

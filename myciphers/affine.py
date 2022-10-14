@@ -66,7 +66,7 @@ class Affine(Cipher):
 			plaintext += new_char
 		return plaintext
 
-	def brute_force_decrypt(text, alphabet = config.alphabet_upper):
+	def brute_force(text, alphabet = config.alphabet_upper):
 		## RETURNS DICTIONARY OF DECRYPTIONS ##
 		decryptions = {} # dictionary where key is (a, b)
 		for a in range(1, 26):

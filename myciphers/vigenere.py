@@ -187,5 +187,8 @@ class Vigenere(Cipher):
 			keywords = new_keywords
 		return keywords
 
+	def brute_force(text):
+		
+
 
 	

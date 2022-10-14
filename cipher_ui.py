@@ -24,7 +24,7 @@ def caesar():
 			print(ciph.Caesar(shift).decrypt(text))
 		def brute_force():
 			text = raw_input("Enter Ciphertext:")
-			decryptions = ciph.Caesar.brute_force_decrypt(text)
+			decryptions = ciph.Caesar.brute_force(text)
 			util.display_decryptions(decryptions)
 			
 		choices = {"Known Key":known_key
@@ -57,7 +57,7 @@ def affine():
 					
 		def brute_force():
 			text = raw_input("Enter Ciphertext:")
-			decryptions = ciph.Affine.brute_force_decrypt(text)
+			decryptions = ciph.Affine.brute_force(text)
 			util.display_decryptions(decryptions)
 			
 		choices = {"Known Key":known_key
@@ -235,10 +235,20 @@ def rail_fence():
 		print(ciph.RailFence(key).encrypt(text))
 
 	def decrypt():
-		text = raw_input("Enter Ciphertext")
-		key = get_int_choice("Enter Key")
-		print(ciph.RailFence(key).decrypt(text))
+		def known_key():
+			text = raw_input("Enter Ciphertext")
+			key = get_int_choice("Enter Key")
+			print(ciph.RailFence(key).decrypt(text))
 
+	
+		def bruteforce():
+			text = raw_input("Enter Ciphertext")
+			decryptions = ciph.RailFence.brute_force_decrypt(text)
+			util.display_decryptions(decryptions)
+
+		choices = {"Known number of rails":known_key
+				 ,"Unknown number of rails (bruteforce)":bruteforce}
+		display_menu("Decryption", choices)
 	## UI ##
 	choices = {"Encrypt":encrypt
 			  ,"Decrypt":decrypt}

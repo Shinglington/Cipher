@@ -69,7 +69,7 @@ class Caesar(Cipher):
 		return plaintext
 
 
-	def brute_force_decrypt(text, alphabet = config.alphabet_upper):
+	def brute_force(text, alphabet = config.alphabet_upper):
 		decryptions = {} # where key is the shift
 		for i in range(0, 26):
 			decrypt = Caesar(i).decrypt(text)
