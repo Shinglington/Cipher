@@ -130,11 +130,12 @@ def display_decryptions(decryption_dict, count = 3):
 
 ## FREQUENCY ANALYSIS ##
 def ngram(text, 
-		  n=1, 
+		  n=1,
 		  continuous=True, 
 		  ignore_case=True, 
 		  ignore_spaces=True,
 		  ignore_punct=False):
+	## GET NGRAMS AND FREQUENCIES
 	frequencies = {}
 	increment = 1
 	if not continuous:
@@ -153,7 +154,7 @@ def ngram(text,
 	return sort_dict(frequencies)
 
 
-def display_result(sorted_freqs, count=26, comparison=True, percentages=True):
+def display_freqs(sorted_freqs, count=26, comparison=True, percentages=True):
 	# If empty, return nothing
 	if len(sorted_freqs) < 1:
 		return
@@ -165,10 +166,9 @@ def display_result(sorted_freqs, count=26, comparison=True, percentages=True):
 	comparisons = get_expected_ngrams(n, count)
 	compkeys = list(comparisons.keys())
 
-	## PRINT LINES
+	## PRINT FREQUENCIES AND COMPARISONS ##
 	print()
 	line_template = "{0:8}\t{1:8}\t\t{2:8}\t{3:8}"
-
 	if comparison:
 		print(line_template.format("INPUT FREQS", "", "NORMAL FREQS", ""))
 		print(
@@ -177,7 +177,7 @@ def display_result(sorted_freqs, count=26, comparison=True, percentages=True):
 		print(line_template.format("INPUT FREQS", "", "", ""))
 		print(line_template.format("LETTER(S)", "FREQUENCY", "", ""))
 
-	for i in range(count):
+	for i in range(min(count, len(keys))):
 		letter1 = keys[i]
 		freq1 = sorted_freqs[letter1]
 		letter2 = ""
@@ -193,12 +193,13 @@ def display_result(sorted_freqs, count=26, comparison=True, percentages=True):
 					freq2 = "{0:.3%}".format(freq2 / expected_ngrams.get_ngram_totals(n))
 		print(line_template.format(letter1, freq1, letter2, freq2))
 
-
 ## SIMPLE TEXT FUNCTIONS ##
 def get_length(text, 
 			   ignore_spaces=True, 
 			   ignore_punctuation=True):
-	return len(filter_text(text, keep_spaces = not ignore_spaces, keep_punct = not ignore_punctuation))
+	return len(filter_text(text, 
+						   keep_spaces = not ignore_spaces, 
+						   keep_punct = not ignore_punctuation))
 
 def get_factors(num):
 	factors = []

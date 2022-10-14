@@ -7,18 +7,37 @@ def FREQ_ANALYSIS():
 	### FREQUENCY ANALYSIS CHOICE ###
 	def single_letter_analysis():
 		text = raw_input("Enter Text To Analyse:")
-		frequencies = util.ngram(text, 1) 
-		for l in config.alphabet_upper:
-			if l not in frequencies.keys():
-				frequencies.update({l:0})
-		util.display_result(frequencies)
-				
+		ignore_spaces = get_bool_choice("Ignore spaces?")
+		ignore_punct= get_bool_choice("Ignore punctuation?")
+		ignore_case = get_bool_choice("Ignore case?")
+		frequencies = util.ngram(text, 1, True, 
+								 ignore_case, 
+								 ignore_spaces, 
+								 ignore_punct)
+		## Get number of different characters found
+		print("\n\n{0} total different characters found".format(len(list(frequencies.keys()))))
+		alphabetic_count = 0
+		for l in list(frequencies.keys()):
+			if l in config.alphabet_upper or l in config.alphabet_lower:
+				alphabetic_count+=1
+
+		print("{0} different alphabetic characters found".format(alphabetic_count))
+		util.display_freqs(frequencies)
+
 	def n_gram_analysis():
 		text = raw_input("Enter Text To Analyse:")
 		n = get_int_choice("Enter length of strings to find frequencies for: ")
-		continuous = get_bool_choice("Continuous analysis?\n(i.e. for n = 2 'abcd' returns 'ab','bc','cd' instead of 'ab', 'cd')\n")
-		frequencies = util.ngram(text, n, continuous)
-		util.display_result(frequencies)
+		continuous = get_bool_choice("Continuous analysis?"
+									 +"\n(treat 'abcd' as 'ab', 'bc', 'cd' instead of 'ab', 'cd')\n")
+		ignore_spaces = get_bool_choice("Ignore spaces?")
+		ignore_punct= get_bool_choice("Ignore punctuation?")
+		ignore_case = get_bool_choice("Ignore case?")
+		frequencies = util.ngram(text, n, 
+								 continuous, 
+								 ignore_case, 
+								 ignore_spaces, 
+								 ignore_punct)
+		util.display_freqs(frequencies)
 
 	## UI ##
 	choices = {"Single Letter Analysis":single_letter_analysis
