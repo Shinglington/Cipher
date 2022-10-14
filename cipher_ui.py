@@ -227,11 +227,48 @@ def col_trans():
 			  ,"Decrypt":decrypt}
 	display_menu("COLUMN TRANSPOSITION CIPHER", choices)
 
+
+def POLY_TRANS():
+	### POLYGRAPHIC TRANSPOSITION CIPHERS
+	choices = {"Playfair":playfair}
+	display_menu("Polygraphic Transposition Ciphers", choices)
+
+	
+def playfair():
+		
+	def encrypt():
+		text = raw_input("Enter Plaintext")
+		keyword = get_string_choice("Enter Keyword")
+		
+		if not get_bool_choice("Use standard alphabet?"):
+			alphabet = get_string_choice("Enter Custom Alphabet", 25)
+			print(ciph.Playfair(ciph.Playfair.generate_grid_alphabet(keyword, alphabet)).encrypt(text))
+		else:			
+			print(ciph.Playfair(ciph.Playfair.generate_grid_alphabet(keyword)).encrypt(text))
+			
+		
+	def decrypt():
+		text = raw_input("Enter Ciphertext")
+		keyword = get_string_choice("Enter Keyword")
+		if not get_bool_choice("Use standard alphabet?"):
+			alphabet = get_string_choice("Enter Custom Alphabet", 25)
+			print(ciph.Playfair(ciph.Playfair.generate_grid_alphabet(keyword, alphabet)).decrypt(text))
+		else:			
+			print(ciph.Playfair(ciph.Playfair.generate_grid_alphabet(keyword)).decrypt(text))
+			
+	## UI ##
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	display_menu("PLAYFAIR CIPHER", choices)
+		
+
+	
 ### MENU ###
 def main():
 	choices = {"Monoalphabetic Substitution":MONO_SUB
 			  ,"Polyalphabetic Substitution":POLY_SUB
-			  ,"Transposition":TRANSPOSITION}
+			  ,"Transposition":TRANSPOSITION
+			  ,"Polygraphic Transposition":POLY_TRANS}
 	display_menu("Menu", choices)
 
 if __name__ == "__main__":
