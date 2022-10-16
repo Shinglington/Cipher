@@ -4,13 +4,14 @@ import myciphers.config as config
 
 class SimpleSub(Cipher):
 	def __init__(self, key = config.alphabet_upper, 
-				 alphabet = config.alphabet_upper):
+				 alphabet = config.alphabet_upper,
+				 detailed = config.detailed):
 		Cipher.__init__(self, alphabet)
 		self.key = key
 
 	def encrypt(self, text):
 		## \/ TEACHING SECTION \/ ##
-		if config.detailed:
+		if self.detailed:
 			print("\nUsing Simple Substitution Cipher to decrypt text" + "\nCipher Alphabet is {0}".format(self.key))
 		## /\ TEACHING SECTION /\ ##
 		text = self.prep_text(text, 

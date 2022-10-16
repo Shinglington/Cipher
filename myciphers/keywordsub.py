@@ -4,10 +4,13 @@ from myciphers.simplesub import SimpleSub
 
 class KeywordSub(Cipher):
 	def __init__(self, keyword = "KEY", 
-				 alphabet = config.alphabet_upper):
+				 alphabet = config.alphabet_upper,
+				 detailed = config.detailed):
 		Cipher.__init__(self, alphabet)
 		self.keyword = keyword.upper()
 		self.cipher_alphabet = KeywordSub.generate_cipher_alphabet(self.keyword, alphabet)
+		if self.detailed:
+			print("Cipher alphabet : {0}".format(self.cipher_alphabet))
 		
 	def generate_cipher_alphabet(keyword, alphabet):
 		cipher_alphabet = ""

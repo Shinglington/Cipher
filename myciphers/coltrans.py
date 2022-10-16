@@ -2,13 +2,14 @@ from myciphers.cipher import Cipher
 import myciphers.config as config
 
 class ColTrans(Cipher):
-	def __init__(self, key = "ABCDEF"):
-		Cipher.__init__(self)
+	def __init__(self, key = "ABCDEF",
+				 detailed = config.detailed):
+		Cipher.__init__(self, detailed = detailed)
 		self.key = key.upper()
 
 	def get_order(self, keyword):
 		## \/ DETAILED DISPLAY \/ ##
-		if config.detailed:
+		if self.detailed:
 			print("\n\n## FINDING ORDER OF COLUMNS ##")
 			print("Keyword is {0} -> convert keyword to index numbers".format(self.key))
 		## /\ DETAILED DISPLAY /\ ##
@@ -18,7 +19,7 @@ class ColTrans(Cipher):
 		col_order = [pair[1] for pair in sorted_letters]
 		
 		## \/ DETAILED DISPLAY \/ ##
-		if config.detailed:
+		if self.detailed:
 			print("Found order to be " 
 				  + "".join(str(x) for x in col_order))
 		## /\ DETAILED DISPLAY /\ ##
@@ -46,7 +47,7 @@ class ColTrans(Cipher):
 			columns[i%keylen] = columns[i%keylen] + text[i]
 			
         ## \/ DETAILED DISPLAY \/ ##
-			if config.detailed:
+			if self.detailed:
 				print("\n\n## COLUMNS FROM PLAINTEXT ##")
 				self.display_cols(columns)
 		## /\ DETAILED DISPLAY /\ ##
@@ -63,7 +64,7 @@ class ColTrans(Cipher):
 		    columns.append(col)
 			
 		## \/ DETAILED DISPLAY \/ ##
-		if config.detailed:
+		if self.detailed:
 			print("\n\n## COLUMNS FROM CIPHERTEXT ##")
 			self.display_cols(columns)
 		## /\ DETAILED DISPLAY /\ ##

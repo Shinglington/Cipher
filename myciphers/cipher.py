@@ -3,9 +3,11 @@ import myciphers.utility as util
 class Cipher():	
 	def __init__(self, 
 				 alphabet = config.alphabet_upper, 
-				 keep_case = config.keep_case):
+				 keep_case = config.keep_case,
+				 detailed = config.detailed):
 		self.alphabet = alphabet
 		self.keep_case = keep_case
+		self.detailed = detailed
 					 
 	def encrypt(self, text):
 		return text
@@ -41,7 +43,7 @@ class Cipher():
 				else:
 					removed_characters.update({c:1})
 		## \/ DETAILED REPORT \/ ##
-		if config.detailed and len(removed_characters) > 0:
+		if self.detailed and len(removed_characters) > 0:
 			print("REMOVED CHARACTERS:")
 			for k in util.sort_dict(removed_characters):
 				print("{0} : {1}".format(k, removed_characters[k]))

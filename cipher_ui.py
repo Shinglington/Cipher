@@ -50,7 +50,7 @@ def affine():
 			text = raw_input("Enter Ciphertext:")
 			a = get_int_choice("Enter a:", range(0,26))
 			b = get_int_choice("Enter b:", range(0,26))
-			if ciph.Affine.calc_inverse_key(a) != -1:
+			if util.modular_inverse(a) != -1:
 				print(ciph.Affine(a, b).decrypt(text))
 			else:
 				print("Invalid 'a' value, no inverse exists")
@@ -173,28 +173,11 @@ def vigenere():
 			print(ciph.Vigenere(key).decrypt(text))
 		def guess_key():
 			text = raw_input("Enter Ciphertext: ")
-			known_length = get_bool_choice("Do you know the key length?")
 			key_length = 0
-			if known_length:
+			if get_bool_choice("Do you know the key length?"):
 				key_length = get_int_choice("Enter key length:")
-			guessed_keys = ciph.Vigenere.guess_key(text, key_length)
-			# Add all key and decryption combinations to a dictionary
-			possible_decryptions = {}
-			for k in guessed_keys:
-				# replace unknowns with "A"
-				k = k.replace("?", "A")
-				possible_decryptions.update({k:ciph.Vigenere(k).decrypt(text)})
-			possible_decryptions = dict(sorted(possible_decryptions.items(), key = lambda item : util.expected_ngrams.calc_fitness(item[1]), reverse = True))
-			
-			# show top 5 results
-			print("Most likely results")
-			print("\n\n")
-			for i in range(min(5, len(possible_decryptions))):
-				key = list(possible_decryptions.keys())[i]
-				print("{0} : key = {1}".format(i+1, key))
-				print(possible_decryptions[key])
-				print("\n\n")
-				
+			decryptions = ciph.Vigenere.brute_force(text, key_length)
+			util.display_decryptions(decryptions)
 
 		choices = {"Known Key":known_key
 				  ,"Attempt to Guess Key":guess_key}
@@ -256,7 +239,8 @@ def rail_fence():
 
 def POLY_TRANS():
 	### POLYGRAPHIC TRANSPOSITION CIPHERS
-	choices = {"Playfair":playfair}
+	choices = {"Playfair":playfair
+			  ,"Hill":hill}
 	display_menu("Polygraphic Transposition Ciphers", choices)
 
 	
@@ -290,6 +274,28 @@ def playfair():
 
 	
 ### MENU ###
+def hill():
+	
+	def encrypt():
+		text = raw_input("Enter Plaintext")
+		matrix_string = get_string_choice("Enter Matrix String")
+		if len(matrix_string) ** 0.5 % 1 != 0:
+			print("Matrix must be square")
+		else:
+			print(ciph.Hill(matrix_string, int(len(matrix_string) ** 0.5)).encrypt(text))
+		
+	def decrypt():
+		text = raw_input("Enter Ciphertext")
+		matrix_string = get_string_choice("Enter Matrix String")
+		if len(matrix_string) ** 0.5 % 1 != 0:
+			print("Matrix must be square")
+		else:
+			print(ciph.Hill(matrix_string, int(len(matrix_string) ** 0.5)).decrypt(text))
+			
+
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	display_menu("HILL CIPHER", choices)
 def main():
 	choices = {"Monoalphabetic Substitution":MONO_SUB
 			  ,"Polyalphabetic Substitution":POLY_SUB

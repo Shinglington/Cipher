@@ -3,16 +3,12 @@ import myciphers.config as config
 
 class Caesar(Cipher):
 	def __init__(self, key = 13,
-				 alphabet = config.alphabet_upper):
-		Cipher.__init__(self, alphabet)
+				 alphabet = config.alphabet_upper,
+				 detailed = config.detailed):
+		Cipher.__init__(self, alphabet, detailed = detailed)
 		self.key = key % len(self.alphabet)
 	
 	def encrypt(self, text):
-		## \/ DETAILED SECTION \/ ##
-		if config.detailed:
-			print("\nUsing Caesar Cipher shift {0} to encrypt text".format(self.key))
-		## /\ DETAILED SECTION /\ ##
-			
 		text = self.prep_text(text, 
 							  keep_punct = False, 
 							  keep_spaces = False)
@@ -38,11 +34,6 @@ class Caesar(Cipher):
 
 	
 	def decrypt(self, text):
-		## \/ DETAILED SECTION \/ ##
-		if config.detailed:
-			print("\nUsing Caesar Cipher shift {0} to decrypt text".format(self.key))
-		## /\ DETAILED SECTION /\ ##
-			
 		text = self.prep_text(text, 
 							  keep_punct = True, 
 							  keep_num = True,

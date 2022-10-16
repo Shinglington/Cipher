@@ -13,6 +13,7 @@ from myciphers.vigenere import Vigenere
 
 ## POLYGRAPHIC SUBSTITUTION
 from myciphers.playfair import Playfair
+from myciphers.hill import Hill
 
 ## TRANSPOSITION
 from myciphers.coltrans import ColTrans

@@ -1,23 +1,18 @@
 from myciphers.cipher import Cipher
 import myciphers.config as config
+import myciphers.utility as util
 
 class Affine(Cipher):
-	def __init__(self, a, b, alphabet = config.alphabet_upper): 
+	def __init__(self, a, b, 
+				 alphabet = config.alphabet_upper,
+				 detailed = config.detailed): 
 		## key in form [a, b]
 		Cipher.__init__(self, alphabet)
+		self.modulo = len(self.alphabet)
 		self.a = a
 		self.b = b
-		self.c = Affine.calc_inverse_key(self.a)
+		self.c = util.modular_inverse(a, self.modulo)
 		assert self.c != -1
-
-	def calc_inverse_key(a):
-		# inverse c is modular multiplicative inverse of a
-		# such that (a * c) % 26 = 1
-		inverse = -1
-		for i in range(1, 26, 2):
-			if (a*i) % 26 == 1:
-				inverse = i
-		return inverse
 		
 	def encrypt(self, text):
 		## \/ DETAILED SECTION \/ ##
@@ -72,7 +67,7 @@ class Affine(Cipher):
 		for a in range(1, 26):
 			for b in range(0, 26):
 				# Check if inverse exists
-				if Affine.calc_inverse_key(a) != -1:
+				if util.modular_inverse(a) != -1:
 					decrypt = Affine(a, b).decrypt(text)
 					if config.detailed:
 						print("\na = {0}, b = {1}".format(a, b))

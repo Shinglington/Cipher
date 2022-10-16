@@ -3,8 +3,10 @@ import myciphers.utility as util
 import myciphers.config as config
 
 class Vigenere(Cipher):
-	def __init__(self, key = "ABCDEF", alphabet = config.alphabet_upper):
-		Cipher.__init__(self, alphabet)
+	def __init__(self, key = "ABCDEF", 
+				 alphabet = config.alphabet_upper,
+				 detailed = config.detailed):
+		Cipher.__init__(self, alphabet, detailed = detailed)
 		self.key = key.upper()
 		self.grid = self.tabula_recta()
 
@@ -14,7 +16,7 @@ class Vigenere(Cipher):
 			grid.append(self.alphabet[i: len(self.alphabet)] + self.alphabet[0:i])
 
 		## DETAILED DISPLAY
-		if config.detailed:
+		if self.detailed:
 			print("\nTABULA-RECTA : find cipher letter by going to corresponding key row and plaintext column \n")
 			for row in grid:
 				print(row)
@@ -30,7 +32,7 @@ class Vigenere(Cipher):
         # Go to row corresponding to keychar
         # Find position of cipherchar in row
         # Use position to get corresponding plainchar
-		return 		self.alphabet[self.grid[self.alphabet.index(keychar)].index(cipherchar)]
+		return 	self.alphabet[self.grid[self.alphabet.index(keychar)].index(cipherchar)]
 
 	def get_keychar(self, plainchar, cipherchar):
 		# go to row corresponding to plainchar
@@ -123,7 +125,7 @@ class Vigenere(Cipher):
 		# check each caesar shift
 		# perform chi squared test on each shift
 		for shift in range(26):
-			decryption = Caesar(shift).decrypt(column)
+			decryption = Caesar(shift, detailed = False).decrypt(column)
 			chi_score = util.calc_chi_squared(decryption)
 			possible_shifts.update({shift:chi_score})
 	
@@ -187,7 +189,20 @@ class Vigenere(Cipher):
 			keywords = new_keywords
 		return keywords
 
-	def brute_force(text):
+	def brute_force(text, key_length = 0):
+		possible_keys = Vigenere.guess_key(text, key_length)
+		if config.detailed:
+			print("Possible keys:")
+			print(possible_keys)
+		decryptions = {}
+		for k in possible_keys:
+			# replace unknowns with "A"
+			k = k.replace("?", "A")
+			decryptions.update({k:Vigenere(k, detailed = False).decrypt(text)})
+		return decryptions
+
+		
+		
 		
 
 

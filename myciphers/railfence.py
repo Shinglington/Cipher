@@ -2,8 +2,9 @@ from myciphers.cipher import Cipher
 import myciphers.config as config
 
 class RailFence(Cipher):
-	def __init__(self, key):
-		Cipher.__init__(self)
+	def __init__(self, key,
+				detailed = config.detailed):
+		Cipher.__init__(self, detailed = detailed)
 		self.key = key
 
 	

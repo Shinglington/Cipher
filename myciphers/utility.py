@@ -238,3 +238,14 @@ def sort_dict(unsorted_dict,
 	return sorted_dict
 
 
+## MATHEMATICAL FUNCTIONS
+def modular_inverse(x, modulo = 26):
+	inverse = -1
+	for i in range(1, modulo):
+		if (x*i) % modulo == 1:
+			inverse = i
+			break
+	return inverse
+	
+	
+	
