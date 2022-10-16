@@ -9,7 +9,8 @@ def MONO_SUB():
 			   "Affine Cipher":affine,
 			   "Simple Substitution":simple_substitution,
 			   "Keyword Substitution":keyword_substitution,
-			   "Polybius Square":polybius_square
+			   "Polybius Square":polybius_square,
+			   "Baconian Cipher":baconian
 }
 	display_menu("Monoalphabetic Substitution Ciphers", choices)
 def caesar():
@@ -173,6 +174,21 @@ def polybius_square():
 	choices = {"Encrypt":encrypt
 			  ,"Decrypt":decrypt}
 	display_menu("Polybius Square", choices)
+
+
+def baconian():
+	def encrypt():
+		text = raw_input("Enter Plaintext: ")
+		print(ciph.Baconian().encrypt(text))
+		
+	def decrypt():
+		text = raw_input("Enter Ciphertext: ")
+		print(ciph.Baconian().decrypt(text))
+		
+	## UI ##
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	display_menu("Baconian Cipher", choices)
 	
 def POLY_SUB(): 
 	### POLYALPHABETIC SUBSTITUTION ###

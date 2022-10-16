@@ -7,6 +7,7 @@ from myciphers.simplesub import SimpleSub
 from myciphers.keywordsub import KeywordSub
 from myciphers.affine import Affine
 from myciphers.polybius import PolybiusSquare
+from myciphers.baconian import Baconian
 
 ## POLYALPHABETIC SUBSTITUTION
 from myciphers.vigenere import Vigenere

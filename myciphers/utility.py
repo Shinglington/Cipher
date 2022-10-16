@@ -247,6 +247,9 @@ def modular_inverse(x, modulo = 26):
 			break
 	return inverse
 
+	
+	
+	
 # Matrices
 def matrix_multiply(a, b):
 	assert len(a[0]) == len(b)
