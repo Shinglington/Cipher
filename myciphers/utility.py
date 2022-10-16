@@ -275,7 +275,7 @@ def matrix_determinant(matrix):
 		determinant = 0
 		cofactors = matrix_cofactors(matrix)
 		for j in range(len(matrix)):
-			determinant += cofactors[0][j]
+			determinant += matrix[0][j] * cofactors[0][j]
 		return determinant
 	
 def matrix_cofactors(matrix):

@@ -73,7 +73,8 @@ class Hill(Cipher):
 
 	def get_inverse(matrix, modulo = 26):
 		adj_matrix = []
-		inv_det = util.modular_inverse(util.matrix_determinant(matrix), modulo)
+		det = util.matrix_determinant(matrix)
+		inv_det = util.modular_inverse(det, modulo)
 		if inv_det == 0:
 			return None
 		if len(matrix) == 2:
@@ -87,11 +88,14 @@ class Hill(Cipher):
 		else:
 			adj_matrix = util.transpose_matrix(util.matrix_cofactors(matrix))
 
+		print(adj_matrix)
+		print(det)
+		print(inv_det)
 		inv_matrix = []
 		for row in range(len(matrix)):
 			inv_row = []
 			for col in range(len(matrix)):
-				inv_row.append((inv_det * adj_matrix[row][col]) % modulo)
+				inv_row.append((inv_det*(adj_matrix[row][col] % modulo)) % modulo)
 			inv_matrix.append(inv_row)
 
 		return inv_matrix

@@ -8,7 +8,8 @@ def MONO_SUB():
 	choices = {"Caesar":caesar,
 			   "Affine Cipher":affine,
 			   "Simple Substitution":simple_substitution,
-			   "Keyword Substitution":keyword_substitution
+			   "Keyword Substitution":keyword_substitution,
+			   "Polybius Square":polybius_square
 }
 	display_menu("Monoalphabetic Substitution Ciphers", choices)
 def caesar():
@@ -128,9 +129,6 @@ def simple_substitution():
 	display_menu("Simple Substitution Cipher", choices)
 
 
-	
-
-
 def keyword_substitution():
 	def encrypt():
 		text = raw_input("Enter Plaintext: ")
@@ -156,6 +154,26 @@ def keyword_substitution():
 			  ,"Decrypt":decrypt}
 	display_menu("Simple Substitution Cipher", choices)
 
+def polybius_square():
+	def encrypt():
+		text = raw_input("Enter Plaintext: ")
+		alphabet = None
+		if get_bool_choice("Use custom square alphabet?"):
+			alphabet = get_string_choice("Enter custom alphabet", length = 25)
+		print(ciph.PolybiusSquare(alphabet).encrypt(text))
+		
+	def decrypt():
+		text = raw_input("Enter Ciphertext: ")
+		alphabet = None
+		if get_bool_choice("Use custom square alphabet?"):
+			alphabet = get_string_choice("Enter custom alphabet", length = 25)
+		print(ciph.PolybiusSquare(alphabet).decrypt(text))
+
+	## UI ##
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	display_menu("Polybius Square", choices)
+	
 def POLY_SUB(): 
 	### POLYALPHABETIC SUBSTITUTION ###
 	choices = {"Vigenere":vigenere}
@@ -245,7 +263,6 @@ def POLY_TRANS():
 
 	
 def playfair():
-		
 	def encrypt():
 		text = raw_input("Enter Plaintext")
 		keyword = get_string_choice("Enter Keyword")
