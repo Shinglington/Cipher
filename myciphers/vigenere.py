@@ -49,7 +49,6 @@ class Vigenere(Cipher):
 		for c in text:
 			new_char = c.upper()
 			if new_char in self.alphabet:
-				print(new_char)
 				new_char = self.get_cipherchar(new_char, self.key[keyindex])
 				keyindex = (keyindex + 1) % len(self.key)
 			if self.keep_case and c.islower:

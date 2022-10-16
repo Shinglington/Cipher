@@ -192,7 +192,8 @@ def baconian():
 	
 def POLY_SUB(): 
 	### POLYALPHABETIC SUBSTITUTION ###
-	choices = {"Vigenere":vigenere}
+	choices = {"Vigenere":vigenere,
+			  "Autokey":autokey}
 	display_menu("Monoalphabetic Substitution Ciphers", choices)
 
 def vigenere():
@@ -221,7 +222,20 @@ def vigenere():
 			  ,"Decrypt":decrypt}
 	display_menu("Vigenere Cipher", choices)
 
+def autokey():
+	def encrypt():
+		text = raw_input("Enter Plaintext: ")
+		key = get_string_choice("Enter Key")
+		print(ciph.Autokey(key).encrypt(text))
+		
+	def decrypt():
+		text = raw_input("Enter Ciphertext: ")
+		key = get_string_choice("Enter Key")
+		print(ciph.Autokey(key).decrypt(text))
 
+	choices = {"Encrypt":encrypt
+			  ,"Decrypt":decrypt}
+	display_menu("Autokey Cipher", choices)
 
 def TRANSPOSITION():
 	### TRANSPOSITION ###
