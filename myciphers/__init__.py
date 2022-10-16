@@ -12,6 +12,7 @@ from myciphers.baconian import Baconian
 ## POLYALPHABETIC SUBSTITUTION
 from myciphers.vigenere import Vigenere
 from myciphers.autokey import Autokey
+from myciphers.beaufort import Beaufort
 
 
 ## POLYGRAPHIC SUBSTITUTION

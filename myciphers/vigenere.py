@@ -17,9 +17,10 @@ class Vigenere(Cipher):
 
 		## DETAILED DISPLAY
 		if self.detailed:
-			print("\nTABULA-RECTA : find cipher letter by going to corresponding key row and plaintext column \n")
+			print("\nTABULA-RECTA")
 			for row in grid:
 				print(row)
+			print("\n")
 		return grid
 	
 	def get_cipherchar(self, plainchar, keychar):
