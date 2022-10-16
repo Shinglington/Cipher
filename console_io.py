@@ -25,7 +25,7 @@ def get_int_choice(prompt, choices=[]):
 	return user_input
 
 
-def get_string_choice(prompt, length=0):
+def get_string_choice(prompt, length=0, alphabet_only = False):
 	success = False
 	user_input = None
 	while not success:
@@ -33,6 +33,8 @@ def get_string_choice(prompt, length=0):
 		user_input = input()
 		if length != 0 and len(user_input) != length:
 			print("Expected string length of " + str(length))
+		elif not user_input.isalpha():
+			print("Please only enter alphabetic characters")
 		else:
 			success = True
 	return user_input

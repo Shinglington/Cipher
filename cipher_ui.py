@@ -275,22 +275,25 @@ def playfair():
 	
 ### MENU ###
 def hill():
-	
 	def encrypt():
 		text = raw_input("Enter Plaintext")
-		matrix_string = get_string_choice("Enter Matrix String")
+		matrix_string = get_string_choice("Enter Matrix String", alphabet_only = True)
 		if len(matrix_string) ** 0.5 % 1 != 0:
 			print("Matrix must be square")
+		elif ciph.Hill.get_inverse(ciph.Hill.make_matrix(matrix_string.upper())) == None:
+			print("Matrix must have inverse")
 		else:
-			print(ciph.Hill(matrix_string, int(len(matrix_string) ** 0.5)).encrypt(text))
+			print(ciph.Hill(matrix_string).encrypt(text))
 		
 	def decrypt():
 		text = raw_input("Enter Ciphertext")
-		matrix_string = get_string_choice("Enter Matrix String")
+		matrix_string = get_string_choice("Enter Matrix String", alphabet_only = True)
 		if len(matrix_string) ** 0.5 % 1 != 0:
 			print("Matrix must be square")
+		elif ciph.Hill.get_inverse(ciph.Hill.make_matrix(matrix_string.upper())) == None:
+			print("Matrix must have inverse")
 		else:
-			print(ciph.Hill(matrix_string, int(len(matrix_string) ** 0.5)).decrypt(text))
+			print(ciph.Hill(matrix_string).decrypt(text))
 			
 
 	choices = {"Encrypt":encrypt

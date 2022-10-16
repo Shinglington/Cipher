@@ -246,6 +246,67 @@ def modular_inverse(x, modulo = 26):
 			inverse = i
 			break
 	return inverse
+
+# Matrices
+def matrix_multiply(a, b):
+	assert len(a[0]) == len(b)
+	product = []
+	for row in range(len(a)):
+		new_row = []
+		for col in range(len(b[row])):
+			new_item = 0
+			for i in range(len(a[row])):
+				new_item += a[row][i] * b[i][col]
+			new_row.append(new_item)
+		product.append(new_row)
+	return product
+			
 	
+
+def matrix_determinant(matrix):
+	if len(matrix) == 2:
+		## matrix in form [[a, b], [c, d]]
+		a = matrix[0][0]
+		b = matrix[0][1]
+		c = matrix[1][0]
+		d = matrix[1][1]
+		return (a*d) - (b*c)
+	else:
+		determinant = 0
+		cofactors = matrix_cofactors(matrix)
+		for j in range(len(matrix)):
+			determinant += cofactors[0][j]
+		return determinant
 	
-	
+def matrix_cofactors(matrix):
+	cofactor_matrix = []
+	## find cofactor of each element in matrix
+	for row in range(len(matrix)):
+		cofactor_row = []
+		for col in range(len(matrix)):
+			minor = matrix_determinant(matrix_minor(matrix, row, col))
+			cofactor = minor * ((-1)**(row+col))
+			cofactor_row.append(cofactor)
+		cofactor_matrix.append(cofactor_row)
+	return cofactor_matrix
+
+def matrix_minor(matrix, row, col):
+	minor = []
+	for i in range(len(matrix)):
+		if i != row:
+			minor_row = []
+			for j in range(len(matrix)):
+				if j != col:
+					minor_row.append(matrix[i][j])
+			minor.append(minor_row)
+	return minor
+
+def transpose_matrix(matrix):
+	transposed = []
+	for j in range(len(matrix)):
+		new_row = []
+		for i in range(len(matrix)):
+			new_row.append(matrix[i][j])
+		transposed.append(new_row)
+	return transposed 
+
