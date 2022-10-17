@@ -75,7 +75,7 @@ class Hill(Cipher):
 		adj_matrix = []
 		det = util.matrix_determinant(matrix)
 		inv_det = util.modular_inverse(det, modulo)
-		if inv_det == 0:
+		if inv_det == -1:
 			return None
 		if len(matrix) == 2:
 			## matrix in form [[a, b], [c, d]]
@@ -87,10 +87,6 @@ class Hill(Cipher):
 					    ,[-c, a]]
 		else:
 			adj_matrix = util.transpose_matrix(util.matrix_cofactors(matrix))
-
-		print(adj_matrix)
-		print(det)
-		print(inv_det)
 		inv_matrix = []
 		for row in range(len(matrix)):
 			inv_row = []
