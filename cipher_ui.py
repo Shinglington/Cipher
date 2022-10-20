@@ -362,12 +362,30 @@ def hill():
 	choices = {"Encrypt":encrypt
 			  ,"Decrypt":decrypt}
 	display_menu("HILL CIPHER", choices)
+
+
+
+def OTHER():
+	def restore_punct():
+		plaintext = raw_input("Enter Decrypted Text: ")
+		ciphertext = raw_input("Enter Original Ciphertext: ")
+		print("\n\n")
+		print(util.restore_punct(plaintext, ciphertext))
+	
+	choices = {"Restore Punctuation":restore_punct}
+	display_menu("Menu", choices)
+	
 def main():
 	choices = {"Monoalphabetic Substitution":MONO_SUB
 			  ,"Polyalphabetic Substitution":POLY_SUB
 			  ,"Transposition":TRANSPOSITION
-			  ,"Polygraphic Transposition":POLY_TRANS}
+			  ,"Polygraphic Transposition":POLY_TRANS
+			  ,"Other":OTHER}
 	display_menu("Menu", choices)
+
+
+
+
 
 if __name__ == "__main__":
 	main()

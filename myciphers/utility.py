@@ -230,6 +230,31 @@ def filter_text(text, filter = "",
 				output += c
 		return output
 
+def get_unique_chars(text):
+	chars = []
+	for c in text:
+		if c not in chars:
+			chars.append(c)
+	return chars
+
+
+
+def restore_punct(decrypted, original):
+	decrypted = decrypted.strip()
+	original = original.strip()
+	restored_text = ""
+	decrypted_index = 0
+	
+	decrypted_chars = get_unique_chars(decrypted)
+	for i in range(len(original)):
+		if original[i] not in config.alphabet_upper and original[i] not in decrypted_chars:
+			restored_text += original[i]
+		else:
+			restored_text += decrypted[decrypted_index]
+			decrypted_index += 1
+	return restored_text
+			
+			
 
 ## GENERAL ##
 def sort_dict(unsorted_dict, 
@@ -312,4 +337,5 @@ def transpose_matrix(matrix):
 			new_row.append(matrix[i][j])
 		transposed.append(new_row)
 	return transposed 
+
 
