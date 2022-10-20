@@ -339,3 +339,21 @@ def transpose_matrix(matrix):
 	return transposed 
 
 
+
+
+## Combinatorics
+def permutations(list):
+	if len(list) == 0:
+		return []
+
+	if len(list) == 1:
+		return [list]
+
+	current_perms = []
+	for i in range(len(list)):
+		item = list[i]
+		remaining_list = list[:i] + list[i+1:]
+
+		for p in permutations(remaining_list):
+			current_perms.append([item] + p)
+	return current_perms

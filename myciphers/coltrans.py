@@ -1,5 +1,6 @@
 from myciphers.cipher import Cipher
 import myciphers.config as config
+import myciphers.utility as util
 
 class ColTrans(Cipher):
 	def __init__(self, key = "ABCDEF",
@@ -103,3 +104,48 @@ class ColTrans(Cipher):
 		columns = self.cols_from_ciphertext(text)
 		col_order = self.get_order(self.key)
 		return self.plaintext_from_col(columns, col_order)
+
+
+	## BRUTEFORCE STUFF
+	def brute_force_length(text, key_length, return_count = 10):
+		key = config.alphabet_upper[0:key_length]
+		key_permutations = util.permutations(key)
+		decryptions = {}
+		for k in key_permutations:
+			decryptions.update({k:ColTrans(k, False).decrypt(text)})
+		decryptions = util.order_by_likelihood(decryptions)
+		
+		return decryptions
+	
+	def test_short_keylengths(text, maxlength = 9):
+		decryptions = {}
+		for l in range(2, maxlength + 1):
+			
+	
+	def guess_key(text, length = 0):
+		most_likely_keys = []
+		if length == 0:
+			key_lengths = key_lengths = util.get_factors(util.get_length(text, True, False))
+			for i in key_lengths:
+				keys = ColTrans.guess_key(text, i)
+				for k in keys:
+					most_likely_keys.append(k)
+		else:
+			
+			
+
+		return most_likely_keys
+		
+		
+
+	def brute_force(text, key_length = 0):
+		## if known key length, use that, else generate array of factors to guess key length
+		possible_keys = ColTrans.guess_key(text, key_length)
+		if config.detailed:
+			print("Possible keys:")
+			print(possible_keys)
+		decryptions = {}
+		for k in possible_keys:
+			decryptions.update({k:ColTrans(k, detailed = False).decrypt(text)})
+		return decryptions
+

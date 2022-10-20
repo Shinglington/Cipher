@@ -265,11 +265,22 @@ def col_trans():
 		key = get_string_choice("Enter Key")
 		print(ciph.ColTrans(key).encrypt(text))
 	def decrypt():
-		text = raw_input("Enter Cipher Text")
-		key = get_string_choice("Enter Key")
-		print(ciph.ColTrans(key).decrypt(text))
+		def normal_decrypt():
+			text = raw_input("Enter Cipher Text")
+			key = get_string_choice("Enter Key")
+			print(ciph.ColTrans(key).decrypt(text))
 
+		def brute_force():
+			text = raw_input("Enter Cipher Text") 
+			key_length = 0
+			if get_bool_choice("Do you know the key length?"):
+				key_length = get_int_choice("Enter key length:")
+			decryptions = ciph.ColTrans.brute_force(text, key_length)
+			util.display_decryptions(decryptions)
 		
+		choices = {"Known Key":normal_decrypt
+			      ,"Guess Key":brute_force}
+		display_menu("COLUMN TRANSPOSITION CIPHER", choices)
 	## UI ##
 	choices = {"Encrypt":encrypt
 			  ,"Decrypt":decrypt}
