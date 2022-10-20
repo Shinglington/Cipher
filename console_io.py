@@ -33,7 +33,7 @@ def get_string_choice(prompt, length=0, alphabet_only = False):
 		user_input = input()
 		if length != 0 and len(user_input) != length:
 			print("Expected string length of " + str(length))
-		elif not user_input.isalpha():
+		elif not user_input.isalpha() and alphabet_only:
 			print("Please only enter alphabetic characters")
 		else:
 			success = True

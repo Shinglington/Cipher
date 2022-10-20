@@ -3,6 +3,25 @@ from console_io import raw_input, get_int_choice, get_bool_choice, get_string_ch
 import myciphers.utility as util
 import myciphers.config as config
 
+def DEFAULT_TESTS():
+	text = raw_input("Enter Text To Analyse:")
+	ignore_spaces = get_bool_choice("Ignore spaces?")
+	ignore_punct= get_bool_choice("Ignore punctuation?")
+	ignore_case = get_bool_choice("Ignore case?")
+	## IOC, length, factors
+	length = util.get_length(text, ignore_spaces, ignore_punct)
+	print("Text Length: " + str(length))
+	print(print("Factors: " + str(util.get_factors(length))))
+	print("IOC : {0}".format(util.calc_ioc(text)))
+	
+	## n-gram analysis
+	for n in range(1, 4):
+		freqs = util.ngram(text, n, True, 
+							ignore_case, 
+							ignore_spaces, 
+							ignore_punct)
+		util.display_freqs(freqs)
+
 def FREQ_ANALYSIS():
 	### FREQUENCY ANALYSIS CHOICE ###
 	def single_letter_analysis():
@@ -89,7 +108,8 @@ def calculate_chi_squared():
 	
 ### MENU ###
 def main():
-	choices = {"Frequency Analysis":FREQ_ANALYSIS
+	choices = {"Default Analysis Test":DEFAULT_TESTS
+			  ,"Frequency Analysis":FREQ_ANALYSIS
 			  ,"Other Tools":GENERAL}
 	display_menu("Menu", choices)
 
