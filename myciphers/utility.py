@@ -355,5 +355,8 @@ def permutations(list):
 		remaining_list = list[:i] + list[i+1:]
 
 		for p in permutations(remaining_list):
-			current_perms.append([item] + p)
+			new_perm = [item]
+			for x in p:
+				new_perm.append(x)
+			current_perms.append(new_perm)
 	return current_perms

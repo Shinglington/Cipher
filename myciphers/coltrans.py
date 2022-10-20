@@ -48,9 +48,9 @@ class ColTrans(Cipher):
 			columns[i%keylen] = columns[i%keylen] + text[i]
 			
         ## \/ DETAILED DISPLAY \/ ##
-			if self.detailed:
-				print("\n\n## COLUMNS FROM PLAINTEXT ##")
-				self.display_cols(columns)
+		if self.detailed:
+			print("\n\n## COLUMNS FROM PLAINTEXT ##")
+			self.display_cols(columns)
 		## /\ DETAILED DISPLAY /\ ##
 		return columns
 
@@ -106,34 +106,31 @@ class ColTrans(Cipher):
 		return self.plaintext_from_col(columns, col_order)
 
 
-	## BRUTEFORCE STUFF
-	def brute_force_length(text, key_length, return_count = 10):
+	## BRUTEFORCE STUFF	
+	def brute_force_length(text, key_length):
 		key = config.alphabet_upper[0:key_length]
 		key_permutations = util.permutations(key)
 		decryptions = {}
 		for k in key_permutations:
-			decryptions.update({k:ColTrans(k, False).decrypt(text)})
+			str_k = "".join(k)
+			decryptions.update({str_k:ColTrans(str_k, False).decrypt(text)})
 		decryptions = util.order_by_likelihood(decryptions)
-		
 		return decryptions
+
 	
-	def test_short_keylengths(text, maxlength = 9):
-		decryptions = {}
-		for l in range(2, maxlength + 1):
-			
-	
-	def guess_key(text, length = 0):
+	def guess_key(text, length = 0, maxlength = 9):
 		most_likely_keys = []
 		if length == 0:
-			key_lengths = key_lengths = util.get_factors(util.get_length(text, True, False))
-			for i in key_lengths:
+			for i in range(2, maxlength+1):
+				print("Checking key lengths of {0}".format(i))
 				keys = ColTrans.guess_key(text, i)
 				for k in keys:
 					most_likely_keys.append(k)
 		else:
-			
-			
-
+			decryptions = ColTrans.brute_force_length(text, length)
+			decrypt_keys = list(decryptions.keys())
+			for i in range(min(10, len(decrypt_keys))):
+				most_likely_keys.append(decrypt_keys[i])
 		return most_likely_keys
 		
 		
@@ -148,4 +145,4 @@ class ColTrans(Cipher):
 		for k in possible_keys:
 			decryptions.update({k:ColTrans(k, detailed = False).decrypt(text)})
 		return decryptions
-
+	

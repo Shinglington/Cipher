@@ -83,7 +83,7 @@ def simple_substitution():
 			text = raw_input("Enter Ciphertext: ")
 			key = get_string_choice("Enter Cipher Alphabet used\n" + ciph.Cipher.uppercase + "\n            /\\", 26)
 			print(ciph.SimpleSub(key).decrypt(text))
-
+		
 		def partial_decrypt():
 			done = False
 			text = raw_input("Enter Ciphertext: ").lower()
@@ -119,9 +119,18 @@ def simple_substitution():
 				print(ciph.SimpleSub().partial_decrypt(text, partial_alphabet))
 				print()
 
+
 				
+		
+		def hill_climbing():
+			text = raw_input("Enter Ciphertext: ")
+			final_decryption = ciph.SimpleSub.brute_force(text)
+			print("\n\n\nFinal Decryption:")
+			print(final_decryption)
+			
 		choices = {"Known Cipher Alphabet":normal_decrypt
-				  ,"Trial And Error":partial_decrypt}
+				  ,"Trial And Error":partial_decrypt
+				  ,"Automatic decryption (hill climbing)":hill_climbing}
 		display_menu("", choices)
 
 	## UI ##
