@@ -6,7 +6,7 @@ class SimpleSub(Cipher):
 	def __init__(self, key = config.alphabet_upper, 
 				 alphabet = config.alphabet_upper,
 				 detailed = config.detailed):
-		Cipher.__init__(self, alphabet)
+		Cipher.__init__(self, alphabet, detailed = detailed)
 		self.key = key
 
 	def encrypt(self, text):
@@ -26,11 +26,11 @@ class SimpleSub(Cipher):
 			ciphertext += new_char
 		return ciphertext
 		
-	def decrypt(self, text):
+	def decrypt(self, text, keep_spaces = True, keep_punct = True):
 		## if ciphertext has punctuation, spaces and numbers, no harm in keeping them for plaintext 
 		text = self.prep_text(text, 
-							  keep_spaces = True,
-							  keep_punct = True)
+							  keep_spaces = keep_spaces,
+							  keep_punct = keep_punct)
 		plaintext = ""
 		for c in text:
 			new_char = c.upper()
@@ -50,6 +50,7 @@ class SimpleSub(Cipher):
 		return text
 
 	def brute_force(text, max_iterations = 1000, alphabet = config.alphabet_upper):
+		c = 0
 		## Hill climbing
 		import random
 		max_key = alphabet
@@ -64,9 +65,10 @@ class SimpleSub(Cipher):
 				current_key += key_char
 				remaining_alphabet = remaining_alphabet.replace(key_char, "")
 			
-			current_score = util.expected_ngrams.calc_fitness(SimpleSub(current_key).decrypt(text))
+			current_score = util.expected_ngrams.calc_fitness(SimpleSub(current_key, detailed = False).decrypt(text, False, False))
 			iterations = 0
 			while (iterations < 1000):
+				c+= 1
 				a = random.randint(0, 25)
 				b = random.randint(0, 25)
 				new_key = ""
@@ -77,7 +79,7 @@ class SimpleSub(Cipher):
 						new_key += current_key[a]
 					else:
 						new_key += current_key[j]
-				score = util.expected_ngrams.calc_fitness(SimpleSub(new_key).decrypt(text))
+				score = util.expected_ngrams.calc_fitness(SimpleSub(new_key, detailed = False).decrypt(text, False, False))
 				# check if new score better
 				if score > current_score:
 					current_key = new_key
@@ -89,8 +91,9 @@ class SimpleSub(Cipher):
 				max_score = current_score
 				max_key = current_key
 				print("\nAfter iteration {0}, score is currently {1}".format(i, max_score))
-				print(SimpleSub(max_key).decrypt(text))
+				print(SimpleSub(max_key, detailed = False).decrypt(text))
 				print("Key = {0}".format(max_key))
+				print(c)
 			else:
 				key_streak += 1
 
@@ -98,7 +101,7 @@ class SimpleSub(Cipher):
 			if key_streak > 10:
 				break
 
-		return SimpleSub(max_key).decrypt(text)
+		return SimpleSub(max_key, detailed = False).decrypt(text)
 
 		
 		
